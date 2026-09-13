@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ovyso — Privacy Policy</title>
+<style>
+  :root {
+    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift) + Activity orange accent
+       (AtelierKit/Sources/Models/MetricPalette.swift) — the app's own colorful, Apple-native
+       palette, not a page-specific one. */
+    --bg-top: #0c0c0d;
+    --bg-mid: #2a2a2d;
+    --bg-bottom: #4a4a4e;
+    --surface: #1c1c1e;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --ink: #ffffff;
+    --ink-muted: #b8b8bc;
+    --accent: #ff8a3d;
+    --accent-deep: #e8590c;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-top);
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  .dek {
+    color: var(--ink-muted);
+    font-size: 16px;
+    margin: 0 0 8px;
+  }
+
+  .effective-date {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 6px 14px;
+    border: 0.5px solid var(--hairline);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .hairline {
+    border: none;
+    border-top: 0.5px solid var(--hairline);
+    margin: 44px 0;
+  }
+
+  section h2 {
+    font-family: ui-serif, "New York", Georgia, serif;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+
+  section h3 {
+    font-family: ui-serif, "New York", Georgia, serif;
+    font-weight: 500;
+    font-size: 17px;
+    margin: 28px 0 10px;
+    color: var(--ink);
+  }
+
+  section p {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+    margin: 0 0 16px;
+  }
+
+  section ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+  }
+
+  section li {
+    margin-bottom: 8px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--hairline);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin: 0 0 16px;
+  }
+
+  .card p:last-child { margin-bottom: 0; }
+
+  .card-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+  }
+
+  .pill {
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(255, 138, 61, 0.4);
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+
+  @media (max-width: 480px) {
+    .page { padding: 48px 20px 96px; }
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <p class="eyebrow">Ovyso</p>
+    <h1>Privacy Policy</h1>
+    <p class="dek">In short: your health data stays on your iPhone. The one exception is Circles, which is optional, needs an account, and shares nothing but a daily step count with the people you invite.</p>
+    <span class="effective-date">Effective September 11, 2026</span>
+
+    <hr class="hairline">
+
+    <section>
+      <h2>What Ovyso reads</h2>
+      <p>Ovyso reads the following categories from Apple Health, only with your permission, and only to display them in the app and in your widgets:</p>
+      <div class="pill-row">
+        <span class="pill">Activity — steps, distance, energy, floors, workouts</span>
+        <span class="pill">Heart — rate, resting rate, variability, Cardio Fitness (VO&#8322; max)</span>
+        <span class="pill">Sleep — sessions and stages</span>
+        <span class="pill">Vitals — blood oxygen, breathing rate, wrist temperature</span>
+        <span class="pill">Body — weight, body fat</span>
+      </div>
+      <p>Ovyso never requests write access to Apple Health. It cannot add, change, or delete anything in your health record — the one exception is a Debug-only developer tool used solely on development devices to seed a sample week of data for testing, never available in the App Store build.</p>
+    </section>
+
+    <section>
+      <h2>Where your data goes: nowhere, by default</h2>
+      <p>Everything Ovyso reads from Apple Health is processed on your iPhone and stored in a local, app-only container. Today, the Studio, Moments and every widget work with no account at all — there is nothing to sign up for and nothing to log in to. The only feature that leaves the device is Circles, and only if you use it.</p>
+    </section>
+
+    <section>
+      <h2>Circles: the one thing that is shared</h2>
+      <div class="card">
+        <p class="card-title">What leaves your device</p>
+        <p>If — and only if — you create or join a Circle (a shared step goal with friends), your <strong>daily step total</strong> for that Circle is stored on Ovyso's backend so the other members of that specific Circle can see the group's combined progress and each member's share of it. That is the entire scope: one number, one date, and the display name you chose.</p>
+      </div>
+      <p>Nothing else about you is shared through Circles — not your sleep, not your heart rate, not your vitals, not your precise location or device information. A Circle's data is visible only to the people who joined that Circle using its invite code, and to nobody else; the database enforces that with row-level security, not just the app.</p>
+
+      <h3>The account Circles needs</h3>
+      <p>Because a shared goal has to know whose steps are whose, Circles needs an account. You can create one in two ways, and both are equal:</p>
+      <ul>
+        <li><strong>Sign in with Apple.</strong> Apple sends Ovyso an email address — the real one, or the private relay address Apple generates for you if you choose to hide it — and, on the very first sign-in only, your name. Nothing else.</li>
+        <li><strong>Email and password.</strong> For anyone who would rather not use an Apple ID. Your password is never seen or stored by Ovyso: it is handled by the authentication service below, which stores only a hash of it.</li>
+      </ul>
+      <p>So, in full, what an Ovyso account holds: an email address (or Apple's relay address), a display name you chose, the Circles you made or joined, and one integer per day per Circle. No other health data is ever uploaded.</p>
+
+      <h3>Who stores it</h3>
+      <p>Circles runs on <a href="https://supabase.com/privacy" rel="noopener">Supabase</a>, which hosts the database and the authentication service on Ovyso's behalf as a data processor. The project is hosted in the region chosen when it was created (the European Union by default for Ovyso). Supabase does not use this data for its own purposes.</p>
+
+      <h3>Deleting it</h3>
+      <p><strong>You can delete your account, and everything in it, from inside the app</strong> (circles you started stay with their other members; your own steps leave with you) — Settings → Account → Delete account. It happens immediately: the account, your display name, your memberships and every step total you shared are removed; a Circle you started stays with its other members, and a Circle left with no members at all is removed. Nothing is kept afterwards, and no email to us is required. Leaving a single Circle, rather than deleting the account, takes your steps out of that one Circle and leaves the rest untouched.</p>
+    </section>
+
+    <section>
+      <h2>No analytics, no tracking, no advertising</h2>
+      <p>Ovyso does not use analytics SDKs, does not use advertising SDKs, and does not track you across apps or websites in any way. There are no tracking domains contacted by the app, and nothing in Ovyso is designed to build an advertising profile of you. This is also declared formally in the app's privacy manifest, submitted to Apple with every build.</p>
+    </section>
+
+    <section>
+      <h2>In-app purchases</h2>
+      <p>Ovyso Pro (a one-time purchase, no subscription) is processed entirely by Apple through StoreKit. Ovyso itself never sees or stores your payment details — Apple handles billing, receipts, and renewal directly.</p>
+    </section>
+
+    <section>
+      <h2>Children's privacy</h2>
+      <p>Ovyso is not directed at children. The app can be used in full without an account; the only personal information it can hold is the email address and display name of someone who chose to create one for Circles, which can be deleted from inside the app at any time.</p>
+    </section>
+
+    <section>
+      <h2>Your choices</h2>
+      <ul>
+        <li>Revoke Apple Health access at any time in Settings → Privacy &amp; Security → Health → Data Access &amp; Devices → Ovyso.</li>
+        <li>Leave a Circle at any time from the Circles tab; your steps leave the pool with you.</li>
+        <li>Delete your account, and everything stored with it, from Settings → Account → Delete account.</li>
+        <li>Use the app without an account at all — only Circles needs one.</li>
+        <li>Delete the app to remove everything Ovyso stored locally, including your designs and cached data.</li>
+        <li>Turn on Demo data in Settings to use every part of the app, including widgets, without granting Health access at all.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Changes to this policy</h2>
+      <p>If this policy changes, the effective date above will change with it. Material changes — anything that would change what is collected or how Circle data is shared — will also be noted in the app's release notes.</p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>Questions about this policy: <a href="mailto:support@ovyso.app">support@ovyso.app</a>. You do not need to write to us to delete your data: Settings → Account → Delete account does it immediately.</p>
+    </section>
+
+    <footer>
+      <p>Ovyso · <a href="/support/">Support</a></p>
+    </footer>
+  </main>
+</body>
+</html>

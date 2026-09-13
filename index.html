@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ovyso — Health widgets, crafted</title>
+<meta name="description" content="Ovyso turns the Apple Health data already on your iPhone into Home Screen and Lock Screen widgets you design yourself.">
+<style>
+  :root {
+    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift) + Activity orange accent
+       (AtelierKit/Sources/Models/MetricPalette.swift) — the app's own colorful, Apple-native
+       palette, not a page-specific one. */
+    --bg-top: #0c0c0d;
+    --bg-mid: #2a2a2d;
+    --bg-bottom: #4a4a4e;
+    --surface: #1c1c1e;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --ink: #ffffff;
+    --ink-muted: #b8b8bc;
+    --accent: #ff8a3d;
+    --accent-deep: #e8590c;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-top);
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  .dek {
+    color: var(--ink-muted);
+    font-size: 16px;
+    margin: 0 0 8px;
+  }
+
+  .hairline {
+    border: none;
+    border-top: 0.5px solid var(--hairline);
+    margin: 44px 0;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .contact-card {
+    flex: 1 1 200px;
+    background: var(--surface);
+    border: 0.5px solid var(--hairline);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+
+  .contact-card .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+
+  .contact-card .value {
+    font-size: 15px;
+    margin: 0;
+  }
+
+  section h2 {
+    font-family: ui-serif, "New York", Georgia, serif;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+
+  section p {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+    margin: 0 0 16px;
+  }
+
+  section ol, section ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+  }
+
+  section li {
+    margin-bottom: 8px;
+  }
+
+  details {
+    border: 0.5px solid var(--hairline);
+    border-radius: 14px;
+    padding: 4px 20px;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+
+  details + details { margin-top: 12px; }
+
+  summary {
+    cursor: pointer;
+    padding: 16px 0;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::after {
+    content: "+";
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 12px;
+  }
+
+  details[open] summary::after { content: "–"; }
+
+  details p, details ol {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 14.5px;
+    padding-bottom: 18px;
+  }
+
+  code {
+    background: rgba(255, 138, 61, 0.12);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 0.92em;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(255, 138, 61, 0.4);
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+
+  @media (max-width: 480px) {
+    .page { padding: 48px 20px 96px; }
+    h1 { font-size: 32px; }
+    .contact-row { flex-direction: column; }
+    .contact-card { flex: 0 0 auto; }
+  }
+
+  a.contact-card {
+    display: block;
+    color: var(--ink);
+    border: 0.5px solid var(--hairline);
+    transition: border-color 0.2s ease;
+  }
+  a.contact-card:hover { border-color: var(--accent); }
+  a.contact-card .value { font-size: 17px; font-weight: 600; }
+</style>
+</head>
+<body>
+  <main class="page">
+    <p class="eyebrow">Ovyso</p>
+    <h1>Health widgets, crafted.</h1>
+    <p class="dek">Ovyso turns the steps, sleep, heart rate and vitals already in Apple Health into Home Screen and Lock Screen widgets you design yourself. Coming soon to the App Store for iPhone.</p>
+
+    <div class="contact-row">
+      <a class="contact-card" href="/support/">
+        <p class="label">Help</p>
+        <p class="value">Support</p>
+      </a>
+      <a class="contact-card" href="/privacy/">
+        <p class="label">Your data</p>
+        <p class="value">Privacy Policy</p>
+      </a>
+    </div>
+
+    <footer>
+      <p>Ovyso · <a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
+    </footer>
+  </main>
+</body>
+</html>

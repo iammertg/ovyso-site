@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ovyso — Support</title>
+<style>
+  :root {
+    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift) + Activity orange accent
+       (AtelierKit/Sources/Models/MetricPalette.swift) — the app's own colorful, Apple-native
+       palette, not a page-specific one. */
+    --bg-top: #0c0c0d;
+    --bg-mid: #2a2a2d;
+    --bg-bottom: #4a4a4e;
+    --surface: #1c1c1e;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --ink: #ffffff;
+    --ink-muted: #b8b8bc;
+    --accent: #ff8a3d;
+    --accent-deep: #e8590c;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-top);
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 72px 24px 120px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  .dek {
+    color: var(--ink-muted);
+    font-size: 16px;
+    margin: 0 0 8px;
+  }
+
+  .hairline {
+    border: none;
+    border-top: 0.5px solid var(--hairline);
+    margin: 44px 0;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .contact-card {
+    flex: 1 1 200px;
+    background: var(--surface);
+    border: 0.5px solid var(--hairline);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+
+  .contact-card .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+
+  .contact-card .value {
+    font-size: 15px;
+    margin: 0;
+  }
+
+  section h2 {
+    font-family: ui-serif, "New York", Georgia, serif;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+
+  section p {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+    margin: 0 0 16px;
+  }
+
+  section ol, section ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+  }
+
+  section li {
+    margin-bottom: 8px;
+  }
+
+  details {
+    border: 0.5px solid var(--hairline);
+    border-radius: 14px;
+    padding: 4px 20px;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+
+  details + details { margin-top: 12px; }
+
+  summary {
+    cursor: pointer;
+    padding: 16px 0;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::after {
+    content: "+";
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 12px;
+  }
+
+  details[open] summary::after { content: "–"; }
+
+  details p, details ol {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 14.5px;
+    padding-bottom: 18px;
+  }
+
+  code {
+    background: rgba(255, 138, 61, 0.12);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 0.92em;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(255, 138, 61, 0.4);
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+
+  @media (max-width: 480px) {
+    .page { padding: 48px 20px 96px; }
+    h1 { font-size: 32px; }
+    .contact-row { flex-direction: column; }
+    .contact-card { flex: 0 0 auto; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <p class="eyebrow">Ovyso</p>
+    <h1>Support</h1>
+    <p class="dek">Health widgets, crafted from the Apple Health data already on your iPhone.</p>
+
+    <div class="contact-row">
+      <div class="contact-card">
+        <p class="label">Email</p>
+        <p class="value"><a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
+      </div>
+      <div class="contact-card">
+        <p class="label">Response time</p>
+        <p class="value">Within a few days</p>
+      </div>
+    </div>
+
+    <hr class="hairline">
+
+    <section>
+      <h2>Frequently asked</h2>
+
+      <details open>
+        <summary>My widget shows no numbers, just a placeholder shape</summary>
+        <p>That's Ovyso protecting you from fabricated data, not a bug. It means Health access hasn't been granted yet, or Apple Health has nothing to show for that metric. Open Ovyso, go through the Health Access step (or Settings → Privacy &amp; Security → Health → Data Access &amp; Devices → Ovyso on the device itself), and make sure the categories you care about are turned on. If you'd rather see the app fully populated while you decide, turn on <strong>Settings → Data → Demo data</strong> inside Ovyso — it fills the app and every widget with a realistic sample day.</p>
+      </details>
+
+      <details>
+        <summary>How do I get my Fitbit's data into Ovyso?</summary>
+        <p>Ovyso reads Apple Health only — it never talks to Fitbit or Google directly. If you wear a Fitbit, turn on the Google Health app's own Apple Health sync once, and Ovyso picks up whatever arrives from then on:</p>
+        <ol>
+          <li>Open the Google Health app.</li>
+          <li>Tap the Connections icon, top-left.</li>
+          <li>Choose Apps and services.</li>
+          <li>Select Apple Health, then Get started.</li>
+          <li>Allow Fitness, Sleep, Vitals and Body.</li>
+        </ol>
+        <p>Anything else that writes to Apple Health — an Apple Watch, Garmin, Oura, Withings, or your iPhone by itself — needs no setup at all.</p>
+      </details>
+
+      <details>
+        <summary>How do I add a widget to my Home Screen or Lock Screen?</summary>
+        <p>Touch and hold an empty area of the Home Screen, tap Edit, then Add Widget. Search for "Ovyso" and pick any of the six layouts and a size. For the Lock Screen, touch and hold the Lock Screen itself, tap Customize, and add an Ovyso widget the same way. Widgets stay current on their own; there's nothing to refresh by hand, though a manual refresh is available from the Dashboard widget's own "updated" control.</p>
+      </details>
+
+      <details>
+        <summary>What exactly do Circles share with other members?</summary>
+        <p>Only your daily step total for that specific Circle, plus the display name you chose. Nothing about your sleep, heart rate, vitals, or location is ever shared. Full detail is in the <a href="/privacy/">Privacy Policy</a>.</p>
+      </details>
+
+      <details>
+        <summary>What does Ovyso Pro unlock, and how do I restore it?</summary>
+        <p>Pro removes the two-design limit in the Studio, unlocks all seven finishes, and lets you host Circles of your own — joining a Circle somebody invites you to is free, and every share card is free to make and send in any finish. It's a one-time purchase, handled entirely by Apple through StoreKit — Ovyso never sees your payment details. If Pro isn't showing as active after reinstalling the app or moving to a new device, open Settings inside Ovyso and use Restore Purchases; it re-applies whatever is tied to your Apple ID at no extra charge.</p>
+      </details>
+
+      <details>
+        <summary>Does Ovyso work without an internet connection?</summary>
+        <p>Yes, for everything except Circles (a shared goal has to reach the other members) and the very first StoreKit purchase check. Today, your widgets, and the Studio all read from a local snapshot of your Apple Health data and work offline.</p>
+      </details>
+
+      <details>
+        <summary>Is there an Android version, or a version for other trackers' own apps?</summary>
+        <p>Not currently — Ovyso is an iOS app that reads Apple Health, so any tracker that writes into Apple Health works, but there is no separate Android build.</p>
+      </details>
+    </section>
+
+    <section>
+      <h2>Still stuck?</h2>
+      <p>Email <a href="mailto:support@ovyso.app">support@ovyso.app</a> with your iOS version, the widget layout involved if relevant, and what you expected to see instead. Screenshots help enormously.</p>
+    </section>
+
+    <footer>
+      <p>Ovyso · <a href="/privacy/">Privacy Policy</a></p>
+    </footer>
+  </main>
+</body>
+</html>
