@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["ZGBVD52W7X.com.mertgozukara.atelier"],
+        "components": [
+          { "/": "/join/", "comment": "Circle invites: https://ovyso.app/join/?code=ABC234. The app validates the code." }
+        ]
+      }
+    ]
+  }
+}

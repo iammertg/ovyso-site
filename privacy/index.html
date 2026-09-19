@@ -178,7 +178,7 @@
   <main class="page">
     <p class="eyebrow">Ovyso</p>
     <h1>Privacy Policy</h1>
-    <p class="dek">In short: your health data stays on your iPhone. The one exception is Circles, which is optional, needs an account, and shares nothing but a daily step count with the people you invite.</p>
+    <p class="dek">In short: your health data stays on your iPhone. The one exception is Circles, which is optional, needs an account, and shares only your daily step count and the distance you covered with the people you invite.</p>
     <span class="effective-date">Effective September 11, 2026</span>
 
     <hr class="hairline">
@@ -205,9 +205,9 @@
       <h2>Circles: the one thing that is shared</h2>
       <div class="card">
         <p class="card-title">What leaves your device</p>
-        <p>If — and only if — you create or join a Circle (a shared step goal with friends), your <strong>daily step total</strong> for that Circle is stored on Ovyso's backend so the other members of that specific Circle can see the group's combined progress and each member's share of it. That is the entire scope: one number, one date, and the display name you chose.</p>
+        <p>If — and only if — you create or join a Circle (a shared step goal with friends), your <strong>daily step count and the distance you covered</strong> for that Circle are stored on Ovyso's backend so the other members of that specific Circle can see the group's combined progress and each member's share of it. That is the entire scope: two numbers, one date, your time-zone offset so the round knows when your day ended, and the display name you chose. Both numbers are sent whichever one the Circle's current round counts, because a Circle can change what it counts between rounds.</p>
       </div>
-      <p>Nothing else about you is shared through Circles — not your sleep, not your heart rate, not your vitals, not your precise location or device information. A Circle's data is visible only to the people who joined that Circle using its invite code, and to nobody else; the database enforces that with row-level security, not just the app.</p>
+      <p>Nothing else about you is shared through Circles — not your sleep, not your heart rate, not your vitals, not your precise location, and nothing about your device beyond the time-zone offset above. A Circle's data is visible only to the people who joined that Circle using its invite code, and to nobody else; the database enforces that with row-level security, not just the app.</p>
 
       <h3>The account Circles needs</h3>
       <p>Because a shared goal has to know whose steps are whose, Circles needs an account. You can create one in two ways, and both are equal:</p>
@@ -215,7 +215,7 @@
         <li><strong>Sign in with Apple.</strong> Apple sends Ovyso an email address — the real one, or the private relay address Apple generates for you if you choose to hide it — and, on the very first sign-in only, your name. Nothing else.</li>
         <li><strong>Email and password.</strong> For anyone who would rather not use an Apple ID. Your password is never seen or stored by Ovyso: it is handled by the authentication service below, which stores only a hash of it.</li>
       </ul>
-      <p>So, in full, what an Ovyso account holds: an email address (or Apple's relay address), a display name you chose, the Circles you made or joined, and one integer per day per Circle. No other health data is ever uploaded.</p>
+      <p>So, in full, what an Ovyso account holds: an email address (or Apple's relay address), a display name you chose, the Circles you made or joined, and — per day per Circle — your step count, the distance you covered and your time-zone offset. No other health data is ever uploaded.</p>
 
       <h3>Who stores it</h3>
       <p>Circles runs on <a href="https://supabase.com/privacy" rel="noopener">Supabase</a>, which hosts the database and the authentication service on Ovyso's behalf as a data processor. The project is hosted in the region chosen when it was created (the European Union by default for Ovyso). Supabase does not use this data for its own purposes.</p>

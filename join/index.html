@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join a circle on Ovyso</title>
+<meta name="description" content="A circle is a few friends racing their steps together on Ovyso. Joining is free.">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0c0d">
+<meta property="og:title" content="Join a circle on Ovyso">
+<meta property="og:description" content="A circle is a few friends racing their steps together on Ovyso. Joining is free.">
+<meta name="apple-itunes-app" content="app-id=6810986871, app-argument=https://ovyso.app/join/">
+<script>
+(function () {
+  // The one place this page decides what it is showing. `code` in the query string is untrusted
+  // input — it is only ever pattern-tested here, never written to the DOM as anything but the
+  // validated, six-character result (see AtelierKit/Sources/Circles/InviteLink.swift, the same
+  // rule in Swift). Everything else about the query string, including an unmatched value, is
+  // read and discarded, never reflected.
+  var CODE_PATTERN = /^[A-HJ-NP-Z2-9]{6}$/;
+  var values = new URLSearchParams(location.search).getAll('code');
+  var code = null;
+  // Length is checked before uppercasing, not after: uppercasing is not always length-preserving
+  // (ß → "SS", ﬀ → "FF"), so a value that is not six characters as typed must not become eligible
+  // just because it grows into six on uppercase. Mirrors InviteLink.strictCode in Swift.
+  if (values.length === 1 && values[0].length === 6) {
+    var upper = values[0].toUpperCase();
+    if (CODE_PATTERN.test(upper)) {
+      code = upper;
+    }
+  }
+
+  // Set before <body> exists, so the stylesheet's [data-state] rules are already correct for the
+  // first paint — no flash of the other state.
+  var state = code ? 'invite' : 'fallback';
+  document.documentElement.dataset.state = state;
+
+  if (state === 'invite') {
+    var banner = document.querySelector('meta[name="apple-itunes-app"]');
+    if (banner) {
+      banner.setAttribute('content', 'app-id=6810986871, app-argument=https://ovyso.app/join/?code=' + code);
+    }
+  }
+
+  // The rest needs <body> to exist, so it waits for parsing to finish.
+  document.addEventListener('DOMContentLoaded', function () {
+    var codeEl = document.querySelector('[data-code]');
+    if (code && codeEl) {
+      codeEl.textContent = code;
+      // Most codes fit the card at the CSS size. A code heavy in wide letters (W, M) can be wider
+      // than the card at narrow widths; shrink only that instance, only just enough to fit, by
+      // comparing the rendered element's own scrollWidth with its available content width. Aim a
+      // pixel under: clientWidth/scrollWidth are whole-pixel-rounded, and without that slack the
+      // rounding alone can re-report an overflow after applying the computed size. Bounded so this
+      // always terminates.
+      var fitCode = function () {
+        codeEl.style.fontSize = '';
+        var tries = 4;
+        while (codeEl.scrollWidth > codeEl.clientWidth && tries--) {
+          var current = parseFloat(getComputedStyle(codeEl).fontSize);
+          codeEl.style.fontSize = (current * (codeEl.clientWidth - 1) / codeEl.scrollWidth) + 'px';
+        }
+      };
+      fitCode();
+      window.addEventListener('resize', fitCode);
+    }
+
+    var copyBtn = document.querySelector('[data-copy]');
+    if (copyBtn && codeEl) {
+      var defaultLabel = copyBtn.textContent;
+      var revertTimer = null;
+      copyBtn.addEventListener('click', function () {
+        function selectCode() {
+          var range = document.createRange();
+          range.selectNodeContents(codeEl);
+          var selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+        function showCopied() {
+          // A second click inside the 2s window must restart the timer, not race the first one
+          // and revert the label early.
+          if (revertTimer) {
+            clearTimeout(revertTimer);
+          }
+          copyBtn.textContent = 'Copied';
+          revertTimer = setTimeout(function () {
+            copyBtn.textContent = defaultLabel;
+            revertTimer = null;
+          }, 2000);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(codeEl.textContent).then(showCopied, selectCode);
+        } else {
+          selectCode();
+        }
+      });
+    }
+  });
+})();
+</script>
+<style>
+  /* Same tokens and type as docs/site/index.html: graphite gradient, Activity orange accent,
+     serif h1, 680px column, footer — this is the same site, not a page with its own look. */
+  :root {
+    --bg-top: #0c0c0d;
+    --bg-mid: #2a2a2d;
+    --bg-bottom: #4a4a4e;
+    --surface: #1c1c1e;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --ink: #ffffff;
+    --ink-muted: #b8b8bc;
+    --accent: #ff8a3d;
+    --accent-deep: #e8590c;
+  }
+
+  * { box-sizing: border-box; }
+
+  p { text-wrap: pretty; }
+  .ui-label { white-space: nowrap; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-top);
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 680px;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0 auto;
+    padding: 32px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  /* The headline text itself is state-driven, from the same [data-state] the script sets before
+     <body> exists — a plain CSS swap, so there is nothing to flash between states. */
+  .h-fallback { display: none; }
+  html[data-state="fallback"] .h-default { display: none; }
+  html[data-state="fallback"] .h-fallback { display: inline; }
+
+  .dek {
+    color: var(--ink-muted);
+    font-size: 16px;
+    margin: 0 0 20px;
+  }
+
+  /* Hidden until the script names a state; a no-JS visitor never sees either. */
+  .only-invite, .only-fallback { display: none; }
+  html[data-state="invite"] .only-invite { display: block; }
+  html[data-state="fallback"] .only-fallback { display: block; }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--hairline);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 0 0 18px;
+  }
+
+  .card .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+  }
+
+  .code {
+    font-family: ui-rounded, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.1em;
+    font-size: 72px;
+    line-height: 1.05;
+    margin: 0;
+    color: var(--ink);
+    -webkit-user-select: all;
+    user-select: all;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 18px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    border: 0.5px solid transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #1c1100;
+  }
+  @media (hover: hover) {
+    .btn-primary:hover { background: var(--accent-deep); }
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--hairline);
+    color: var(--ink);
+  }
+
+  .help {
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    margin: 0 0 8px;
+  }
+  .help:last-of-type { margin-bottom: 0; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  footer p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 0.5px solid rgba(255, 138, 61, 0.4); }
+  a:hover { border-bottom-color: var(--accent); }
+  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+  .btn-primary, .btn-primary:hover { border-bottom: none; }
+
+  @media (max-width: 480px) {
+    .page { padding: 24px 20px 20px; }
+    h1 { font-size: 32px; }
+    .code { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <p class="eyebrow">Ovyso · Circles</p>
+    <h1><span class="h-default">You’re invited to a circle.</span><span class="h-fallback">This invite link isn’t complete.</span></h1>
+    <noscript><p class="dek">Your invite code is the six characters after “code=” in the link you were sent.</p></noscript>
+
+    <div class="only-invite">
+      <p class="dek">A circle is a few friends racing their steps together on Ovyso. Joining is free.</p>
+      <div class="card">
+        <p class="label">Invite code</p>
+        <p class="code" data-code></p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://apps.apple.com/app/id6810986871">Get Ovyso on the App Store</a>
+        <button type="button" class="btn btn-secondary" data-copy aria-live="polite">Copy code</button>
+      </div>
+      <p class="help">Already have Ovyso? Open Circles, tap <span class="ui-label">Join with code</span> and paste the code.</p>
+      <p class="help">New to Ovyso? Install it, then open your invite link again.</p>
+    </div>
+
+    <div class="only-fallback">
+      <p class="dek">Ask whoever invited you to send it again, or for their six-character code. In Ovyso, open Circles and tap <span class="ui-label">Join with code</span> to enter it.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://apps.apple.com/app/id6810986871">Get Ovyso on the App Store</a>
+      </div>
+    </div>
+
+    <footer>
+      <p>Ovyso · <a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
+    </footer>
+  </main>
+</body>
+</html>
