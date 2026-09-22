@@ -25,7 +25,10 @@
        `dark.accent`, `accentFill`), chosen on 2026-09-22 — no longer a metric's orange. */
     --bg-top: #0c0c0d;
     --bg-mid: #2a2a2d;
-    --bg-bottom: #4a4a4e;
+    /* The finish's third stop is #4A4A4E; on a page this tall that stop becomes the whole ground
+       under the footer, where the muted links read 4.46:1 and the accent 4.22:1. #404044 keeps
+       the lift over the mid stop (1.39:1) and clears 4.5:1 for every text colour used there. */
+    --bg-bottom: #404044;
     --surface: #1c1c1e;
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
