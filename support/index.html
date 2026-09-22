@@ -6,9 +6,10 @@
 <title>Ovyso — Support</title>
 <style>
   :root {
-    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift) + Activity orange accent
-       (AtelierKit/Sources/Models/MetricPalette.swift) — the app's own colorful, Apple-native
-       palette, not a page-specific one. */
+    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift), the same tokens as
+       index.html. The accent is the app's brand hue from the Porcelain & Graphite Vivid palette
+       (.superpowers/sdd/2026-09-22-porcelain-vivid/palette-study/porcelain-graphite-vivid.json:
+       `dark.accent`, `accentFill`), chosen on 2026-09-22 — no longer a metric's orange. */
     --bg-top: #0c0c0d;
     --bg-mid: #2a2a2d;
     --bg-bottom: #4a4a4e;
@@ -16,8 +17,8 @@
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
-    --accent: #ff8a3d;
-    --accent-deep: #e8590c;
+    --accent: #9fb6cc;
+    --accent-deep: #2e4154;
   }
 
   * { box-sizing: border-box; }
@@ -168,7 +169,7 @@
   }
 
   code {
-    background: rgba(255, 138, 61, 0.12);
+    background: rgba(159, 182, 204, 0.12);
     color: var(--accent);
     padding: 1px 6px;
     border-radius: 5px;
@@ -178,7 +179,7 @@
   a {
     color: var(--accent);
     text-decoration: none;
-    border-bottom: 0.5px solid rgba(255, 138, 61, 0.4);
+    border-bottom: 0.5px solid rgba(159, 182, 204, 0.4);
   }
   a:hover { border-bottom-color: var(--accent); }
 
@@ -247,7 +248,7 @@
 
       <details>
         <summary>What exactly do Circles share with other members?</summary>
-        <p>Only your daily step total for that specific Circle, plus the display name you chose. Nothing about your sleep, heart rate, vitals, or location is ever shared. Full detail is in the <a href="/privacy/">Privacy Policy</a>.</p>
+        <p>Your daily step total and the distance you covered for that specific Circle, the daily goal you set — a round can be scored against each member's own goal, so the others see it beside what you walked — and the display name you chose. Steps and distance typed into Health by hand are left out of what a Circle counts, so a Circle's number can read lower than your own Today screen. Nothing about your sleep, heart rate, vitals, or location is ever shared. Full detail is in the <a href="/privacy/">Privacy Policy</a>.</p>
       </details>
 
       <details>
@@ -257,7 +258,7 @@
 
       <details>
         <summary>Does Ovyso work without an internet connection?</summary>
-        <p>Yes, for everything except Circles (a shared goal has to reach the other members) and the very first StoreKit purchase check. Today, your widgets, and the Studio all read from a local snapshot of your Apple Health data and work offline.</p>
+        <p>Yes, for everything except Circles (your day has to reach the other members of your circle) and the very first StoreKit purchase check. Today, your widgets, and the Studio all read from a local snapshot of your Apple Health data and work offline.</p>
       </details>
 
       <details>

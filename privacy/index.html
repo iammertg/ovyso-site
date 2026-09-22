@@ -6,9 +6,10 @@
 <title>Ovyso — Privacy Policy</title>
 <style>
   :root {
-    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift) + Activity orange accent
-       (AtelierKit/Sources/Models/MetricPalette.swift) — the app's own colorful, Apple-native
-       palette, not a page-specific one. */
+    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift), the same tokens as
+       index.html. The accent is the app's brand hue from the Porcelain & Graphite Vivid palette
+       (.superpowers/sdd/2026-09-22-porcelain-vivid/palette-study/porcelain-graphite-vivid.json:
+       `dark.accent`, `accentFill`), chosen on 2026-09-22 — no longer a metric's orange. */
     --bg-top: #0c0c0d;
     --bg-mid: #2a2a2d;
     --bg-bottom: #4a4a4e;
@@ -16,8 +17,8 @@
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
-    --accent: #ff8a3d;
-    --accent-deep: #e8590c;
+    --accent: #9fb6cc;
+    --accent-deep: #2e4154;
   }
 
   * { box-sizing: border-box; }
@@ -151,10 +152,18 @@
     color: var(--ink-muted);
   }
 
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.92em;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 6px;
+    border-radius: 5px;
+  }
+
   a {
     color: var(--accent);
     text-decoration: none;
-    border-bottom: 0.5px solid rgba(255, 138, 61, 0.4);
+    border-bottom: 0.5px solid rgba(159, 182, 204, 0.4);
   }
   a:hover { border-bottom-color: var(--accent); }
 
@@ -178,8 +187,8 @@
   <main class="page">
     <p class="eyebrow">Ovyso</p>
     <h1>Privacy Policy</h1>
-    <p class="dek">In short: your health data stays on your iPhone. The one exception is Circles, which is optional, needs an account, and shares only your daily step count and the distance you covered with the people you invite.</p>
-    <span class="effective-date">Effective September 11, 2026</span>
+    <p class="dek">In short: your health data stays on your iPhone. The one exception is Circles, which is optional, needs an account, and shares your daily step count, the distance you covered and the daily goal you set with the other members of that Circle.</p>
+    <span class="effective-date">Effective September 21, 2026</span>
 
     <hr class="hairline">
 
@@ -205,23 +214,27 @@
       <h2>Circles: the one thing that is shared</h2>
       <div class="card">
         <p class="card-title">What leaves your device</p>
-        <p>If — and only if — you create or join a Circle (a shared step goal with friends), your <strong>daily step count and the distance you covered</strong> for that Circle are stored on Ovyso's backend so the other members of that specific Circle can see the group's combined progress and each member's share of it. That is the entire scope: two numbers, one date, your time-zone offset so the round knows when your day ended, and the display name you chose. Both numbers are sent whichever one the Circle's current round counts, because a Circle can change what it counts between rounds.</p>
+        <p>If — and only if — you create or join a Circle (walking with friends in rounds, from a Race to a Journey), your <strong>daily step count and the distance you covered</strong> for that Circle are stored on Ovyso's backend so the other members of that specific Circle can see the group's combined progress and each member's share of it. The <strong>daily step and distance goals you set in Ovyso</strong> are stored alongside them, because a round can be scored against each member's own goal instead of one shared target — which also means the other members of that Circle see the goal you set, beside what you walked. That is the entire scope of a day you share: what you walked, what you were walking towards, one date, your time-zone offset so the round knows when your day ended, and the display name you chose. Both totals are sent whichever one the Circle's current round counts, because a Circle can change what it counts between rounds. Your goals are the ones you set in Ovyso's own Settings; Ovyso never reads a goal from Apple Health.</p>
+        <p>A Circle's totals are not always the numbers Health shows you. Steps and distance that Health marks as entered by hand — whether you typed them into Health's own "Add Data" screen or another app wrote them that way — are left out of what a Circle counts; everything else counts. So a Circle's number can be lower than the one on your Today screen, which goes on counting everything.</p>
       </div>
-      <p>Nothing else about you is shared through Circles — not your sleep, not your heart rate, not your vitals, not your precise location, and nothing about your device beyond the time-zone offset above. A Circle's data is visible only to the people who joined that Circle using its invite code, and to nobody else; the database enforces that with row-level security, not just the app.</p>
+      <p>Nothing about your Health data or your device is shared through Circles beyond what is described on this page — not your sleep, not your heart rate, not your vitals, not your precise location, and nothing about your device beyond the time-zone offset above and, for a Circle you founded, the time zone your phone was set to when you made it — both of which that Circle's members' phones receive, because they need them to tell when a day ends — and the notification token described below, which no other member can ever see. The members of a Circle also see your round results, when you joined it, and your lifetime laurel total, which adds up the laurels you won across every Circle you are in. A Circle's data is visible only to the people who joined that Circle using its invite code, and to nobody else; the database enforces that with row-level security, not just the app.</p>
+
+      <h3>Invite links</h3>
+      <p>An invite you send is a message that carries your Circle's name, its round's headline, its code, and a link like <code>ovyso.app/join/?code=ABC234</code>. That link opens a page served by GitHub Pages, the same static host behind this website, not by Ovyso's own backend. On a phone that already has Ovyso installed, tapping it opens the app directly and no request reaches GitHub Pages; opened in a browser instead — as on a phone without Ovyso — it is a request GitHub Pages logs the way any web server does, such as the page asked for, with the code in it, the device's IP address, and the time — a log kept by GitHub, never seen by Ovyso and never reaching Circles' own database. Its preview in Messages is text only, with no image or card; and a Join sheet opened from it shows only the code it was sent, never the Circle's name, until you join.</p>
 
       <h3>The account Circles needs</h3>
-      <p>Because a shared goal has to know whose steps are whose, Circles needs an account. You can create one in two ways, and both are equal:</p>
+      <p>Because a round has to know whose steps are whose, Circles needs an account. You can create one in two ways, and both are equal:</p>
       <ul>
-        <li><strong>Sign in with Apple.</strong> Apple sends Ovyso an email address — the real one, or the private relay address Apple generates for you if you choose to hide it — and, on the very first sign-in only, your name. Nothing else.</li>
-        <li><strong>Email and password.</strong> For anyone who would rather not use an Apple ID. Your password is never seen or stored by Ovyso: it is handled by the authentication service below, which stores only a hash of it.</li>
+        <li><strong>Sign in with Apple.</strong> Apple sends Ovyso an email address — the real one, or the private relay address Apple generates for you if you choose to hide it — your name, on the very first sign-in only, and a stable identifier for your Apple ID on Ovyso, which the authentication service keeps to recognize your account on later sign-ins.</li>
+        <li><strong>Email and password.</strong> For anyone who would rather not use an Apple ID. Your password is never seen or stored by Ovyso: it is handled by the authentication service below, which stores only a hash of it. The name you type when you sign up this way stays on that service's own account record too, even if you rename yourself in Settings afterwards — both records are removed together when you delete your account.</li>
       </ul>
-      <p>So, in full, what an Ovyso account holds: an email address (or Apple's relay address), a display name you chose, the Circles you made or joined, and — per day per Circle — your step count, the distance you covered and your time-zone offset. No other health data is ever uploaded.</p>
+      <p>So, in full, what an Ovyso account holds. <strong>Read from Apple Health:</strong> per day per Circle, your step count and the distance you covered, with anything typed into Health by hand left out as described above. <strong>From you and your phone:</strong> that day's step and distance goals, which you set in Ovyso's own Settings; your time-zone offset, so a round knows when your day ended; the time zone of any Circle you founded, set from yours the moment you made it, which decides when that Circle's rounds start and end and when its alerts may arrive; the display name you chose; and the email address (or Apple's relay address) you signed in with. <strong>Registered by your device:</strong> one notification token, from the moment you sign in — for the silent pushes that keep a board fresh and a round's own alerts. A silent push is what lets Ovyso's server wake the app quietly when somebody in your Circle posts steps, so the board and your widgets are already up to date when you look. A round alert reaches you the same way: its results, a Team Goal or a Journey's destination reached, and its last day. From the moment you sign in these arrive quietly, listed in Notification Center without a banner or a sound — you are not asked first, because iOS lets an app deliver quietly without asking. Turning on notifications is what lets them interrupt you; iOS's own Settings → Notifications → Ovyso is where you turn them down again, or off entirely. Each of those carries the Circle's name, a line such as who won or where you finished, and your account's id, and travels through Apple's push notification service. No other member can see the token itself, it says nothing about where you are or what you do, and it is deleted when you sign out — if that one call ever fails, the app says so and asks before signing you out anyway — and when Apple tells the server the app is no longer installed on that device. <strong>Produced by playing, not read from Health:</strong> the Circles you made or joined, each with its name, its mark and its invite code — all visible to every member, and the name is also the title on that Circle's round notifications; each of their rounds — what it counts, what it is worth, and the days it runs — and, for a Journey you build yourself, its name and its two places — each stored as the city you picked and Apple Maps' own identifier for the landmark, station or square inside it where the route actually starts or ends — never your device's real location; each finished round's results, which keep the name you had then, your place, your total, your score, the days you hit, the days you were active, whether you took part, the awards it gave you, the laurels it paid and the lifetime laurel total it left you on; your lifetime laurel total; and any season title you won, which keeps the Circle's name as it was at the time — unless that Circle is later deleted, when its name is cleared and the app shows it as "A deleted circle" — while the title itself stays with your account regardless. Beyond those there is only bookkeeping: when each row was last written, and when your account was last sent a notification for each Circle. Nothing else Ovyso reads from Apple Health — your sleep, your heart, your vitals, your workouts, energy, floors — is ever uploaded.</p>
 
       <h3>Who stores it</h3>
-      <p>Circles runs on <a href="https://supabase.com/privacy" rel="noopener">Supabase</a>, which hosts the database and the authentication service on Ovyso's behalf as a data processor. The project is hosted in the region chosen when it was created (the European Union by default for Ovyso). Supabase does not use this data for its own purposes.</p>
+      <p>Circles runs on <a href="https://supabase.com/privacy" rel="noopener">Supabase</a>, which hosts the database and the authentication service on Ovyso's behalf as a data processor. The project is hosted in the region chosen when it was created (the European Union by default for Ovyso). Supabase does not use this data for its own purposes. Board and round notifications reach your phone through Apple's push notification service, which Apple operates. A board notification carries nothing but a signal to wake the app; a round's alert carries the Circle's name, one line about the round, and your account's id — never your Health data. Supabase's own sign-in records may separately note technical details such as the IP address and device used for each sign-in, the way most authentication services do; nothing in Ovyso reads or acts on them.</p>
 
       <h3>Deleting it</h3>
-      <p><strong>You can delete your account, and everything in it, from inside the app</strong> (circles you started stay with their other members; your own steps leave with you) — Settings → Account → Delete account. It happens immediately: the account, your display name, your memberships and every step total you shared are removed; a Circle you started stays with its other members, and a Circle left with no members at all is removed. Nothing is kept afterwards, and no email to us is required. Leaving a single Circle, rather than deleting the account, takes your steps out of that one Circle and leaves the rest untouched.</p>
+      <p><strong>You can delete your account, and everything in it, from inside the app</strong> (a Circle you started, and any round you set up in one, stays with its other members; your own steps leave with you) — Settings → Account → Delete account. It happens immediately: the account, your display name, your memberships, every total and goal you shared, your round results, your laurels, any season title you won and every device's notification token registered to it are removed; a Circle you started, and any round you set up in a Circle, stays with its other members, and a Circle left with no members at all is removed. Nothing else is kept afterwards, and no email to us is required. Leaving a single Circle, rather than deleting the account, takes your steps and your membership out of that one Circle — your results and any season titles from it stay — and leaves the rest of your account untouched.</p>
     </section>
 
     <section>
@@ -236,14 +249,14 @@
 
     <section>
       <h2>Children's privacy</h2>
-      <p>Ovyso is not directed at children. The app can be used in full without an account; the only personal information it can hold is the email address and display name of someone who chose to create one for Circles, which can be deleted from inside the app at any time.</p>
+      <p>Ovyso is not directed at children. The app can be used in full without an account; the only personal information it can hold is what a Circle needs — everything listed under "So, in full, what an Ovyso account holds" above — and all of it can be deleted from inside the app at any time.</p>
     </section>
 
     <section>
       <h2>Your choices</h2>
       <ul>
         <li>Revoke Apple Health access at any time in Settings → Privacy &amp; Security → Health → Data Access &amp; Devices → Ovyso.</li>
-        <li>Leave a Circle at any time from the Circles tab; your steps leave the pool with you.</li>
+        <li>Leave a Circle at any time from the Circles tab: your steps and your membership leave with you, but your past results and any season titles you won stay, credited to the name you had then — unless you founded that Circle, whose only way out is Delete circle, which ends it, and its history, for every member. A host who took over because the founder deleted their account keeps the ordinary Leave.</li>
         <li>Delete your account, and everything stored with it, from Settings → Account → Delete account.</li>
         <li>Use the app without an account at all — only Circles needs one.</li>
         <li>Delete the app to remove everything Ovyso stored locally, including your designs and cached data.</li>
