@@ -6,8 +6,8 @@
 <title>Ovyso — Health widgets, crafted</title>
 <meta name="description" content="Ovyso turns the steps, sleep, heart rate and vitals already in Apple Health into Home Screen and Lock Screen widgets you design yourself, and walks with friends in Circles. Coming soon to the App Store for iPhone.">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#0c0c0d" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f7f3ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16100d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbf1e8" media="(prefers-color-scheme: light)">
 <link rel="preload" as="image" href="assets/screens/home.webp" fetchpriority="high">
 <script>
   // Decide the layout before first paint, so a wide screen never flashes the stacked page. The same
@@ -18,26 +18,32 @@
 </script>
 <style>
   :root {
-    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift), the same tokens as
-       privacy.html and support.html; light mode below is the Paper finish, the app's own light
-       ground. The accent is the app's brand hue from the Porcelain & Graphite Vivid palette
-       (.superpowers/sdd/2026-09-22-porcelain-vivid/palette-study/porcelain-graphite-vivid.json:
-       `dark.accent`, `accentFill`), chosen on 2026-09-22 — no longer a metric's orange. */
-    --bg-top: #0c0c0d;
-    --bg-mid: #2a2a2d;
-    /* The finish's third stop is #4A4A4E; on a page this tall that stop becomes the whole ground
-       under the footer, where the muted links read 4.46:1 and the accent 4.22:1. #404044 keeps
-       the lift over the mid stop (1.39:1) and clears 4.5:1 for every text colour used there. */
-    --bg-bottom: #404044;
-    --surface: #1c1c1e;
+    /* The app's own chrome, Sunrise (Atelier/Support/AppTheme.swift, shipped with the Floor on
+       2026-09-23): a cocoa ground #16100D under #231B17 cards, the coral accent #FF7D57 and its
+       deep ember fill #C23D18; light mode below is the linen #FBF1E8 under white cards.
+       privacy.html, support.html and join/index.html share these tokens, and
+       Scripts/site_check.py holds all four pages to the app's bytes. The ground holds for the
+       first 55 % of the page and eases into the card colour by the foot. The old graphite
+       gradient's bottom stop, #404044, was a contrast fix for the titanium accent; the coral
+       reads 4.09:1 on it, and 6.71:1 on the card colour that replaces it. */
+    --bg-top: #16100d;
+    --bg-mid: #16100d;
+    --bg-bottom: #231b17;
+    --surface: #231b17;
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
     --ink-body: rgba(255, 255, 255, 0.88);
-    --accent: #9fb6cc;
-    --accent-deep: #2e4154;
-    --link: #9fb6cc;
-    --link-underline: rgba(159, 182, 204, 0.4);
+    --accent: #ff7d57;
+    --accent-deep: #c23d18;
+    --link: #ff7d57;
+    --link-underline: rgba(255, 125, 87, 0.4);
+    /* The three glows that follow the app's data hues (MetricPalette.swift): Circles gold for
+       Circles and the result, the steps ramp for Today — the dark ramp here, the light one below. */
+    --circles: #fd9f00;
+    --steps-1: #d03000;
+    --steps-2: #cb5a00;
+    --steps-3: #ba7f00;
     --shadow: rgba(0, 0, 0, 0.55);
     --sat-shadow: rgba(0, 0, 0, 0.42);
     /* How much of a section's glow shows behind the phone; the light ground takes less. */
@@ -58,18 +64,25 @@
 
   @media (prefers-color-scheme: light) {
     :root {
-      --bg-top: #f7f3ea;
-      --bg-mid: #efeae0;
+      --bg-top: #fbf1e8;
+      --bg-mid: #fbf1e8;
       --bg-bottom: #ffffff;
       --surface: #ffffff;
       --hairline: rgba(28, 25, 23, 0.12);
       --ink: #1a1a1a;
       --ink-muted: #5c5c60;
       --ink-body: rgba(26, 26, 26, 0.88);
-      --accent: #40566b;
-      --accent-deep: #2e4154;
-      --link: #40566b;
-      --link-underline: rgba(64, 86, 107, 0.4);
+      /* The light accent #E0512A reads 3.50:1 on the linen: enough for the focus ring, not for
+         text. Links take the fill, the same coral taken down to carry text: 4.74:1 on the linen,
+         5.28:1 on white. */
+      --accent: #e0512a;
+      --accent-deep: #c23d18;
+      --link: #c23d18;
+      --link-underline: rgba(194, 61, 24, 0.4);
+      --circles: #b97200;
+      --steps-1: #ff7455;
+      --steps-2: #ff843b;
+      --steps-3: #eaa000;
       --shadow: rgba(35, 27, 15, 0.28);
       --sat-shadow: rgba(35, 27, 15, 0.22);
       --glow-max: 0.55;
@@ -260,6 +273,12 @@
       transition: opacity 0.2s linear;
       will-change: transform, opacity;
     }
+    html.motion .glow.circles { --glow: color-mix(in srgb, var(--circles) var(--mix), transparent); }
+    html.motion .glow.steps {
+      background: conic-gradient(var(--steps-1), var(--steps-2), var(--steps-3), var(--steps-1));
+      -webkit-mask: radial-gradient(closest-side, rgb(0 0 0 / var(--mix)) 0%, transparent 72%);
+      mask: radial-gradient(closest-side, rgb(0 0 0 / var(--mix)) 0%, transparent 72%);
+    }
     html.motion .phone {
       position: absolute;
       left: 50%;
@@ -349,18 +368,18 @@
     <!-- One phone for the whole page. The layers are the sections' screens in section order; the
          driver at the end of the page crossfades and poses them from the scroll position. The glows
          are one per section too: the finish grounds Scripts/appstore-screenshots/shots.json gives the
-         same screens, except Circles and the result, which take the palette's Circles gold
-         (`dark.metrics.circles.hue`), and Today, which takes its steps orange (`dark.metrics.steps.hue`). -->
+         same screens, except Circles and the result, which take the app's Circles gold (`--circles`),
+         and Today, which takes the steps ramp (`--steps-1` to `--steps-3`), each per appearance. -->
     <div class="phone-holder" aria-hidden="true">
       <div class="glows">
         <div class="glow" style="--glow: rgba(106, 79, 224, 0.34); --o: 1"></div>
         <div class="glow" style="--glow: rgba(18, 104, 143, 0.34)"></div>
         <div class="glow" style="--glow: rgba(47, 75, 199, 0.34)"></div>
-        <div class="glow" style="--glow: rgba(253, 159, 0, 0.26)"></div>
+        <div class="glow circles" style="--mix: 26%"></div>
         <div class="glow" style="--glow: rgba(21, 128, 61, 0.32)"></div>
-        <div class="glow" style="--glow: rgba(253, 159, 0, 0.24)"></div>
+        <div class="glow circles" style="--mix: 24%"></div>
         <div class="glow" style="--glow: rgba(8, 145, 178, 0.26)"></div>
-        <div class="glow" style="--glow: rgba(255, 109, 0, 0.26)"></div>
+        <div class="glow steps" style="--mix: 26%"></div>
       </div>
       <div class="phone frame">
         <div class="screen">
@@ -397,13 +416,13 @@
           <p>Metric, Dashboard, Rings, Trend, Lock Screen and Circle. They keep themselves current.</p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/widgets.webp" width="780" height="1695" alt="iPhone Home Screen with three Ovyso widgets among the usual apps: a medium Trend widget in Paper showing 6,399 steps over seven days of bars, a small Steps widget in Graphite reading 6,399 of 10,000 and 3.8 miles, and a small Rings widget in Aurora, with Calendar, Photos, Reminders, News, Maps, Health, Wallet and Settings below." loading="lazy" decoding="async">
+          <img src="assets/screens/widgets.webp" width="780" height="1695" alt="iPhone Home Screen with three Ovyso widgets among the usual apps: a medium Trend widget in Paper showing 2,656 steps over seven days of bars, a small Steps widget in Graphite reading 2,656 of 10,000 and 2.8 miles, and a small Rings widget in Aurora, with Calendar, Photos, Reminders, News, Maps, Health, Wallet and Settings below." loading="lazy" decoding="async">
         </figure>
         <div class="sats">
-          <img class="sat" data-depth="0.9" style="--w:250px;--x:2%;--y:14%" src="assets/widgets/dashboard-large.webp" width="440" height="462" alt="Dashboard widget, large, in Graphite: Tuesday, Sep 22, with steps, distance, energy, exercise days, hourly activity and sleep." loading="lazy" decoding="async">
-          <img class="sat" data-depth="0.55" style="--w:220px;--x:30%;--y:50%" src="assets/widgets/lock-rectangular.webp" width="400" height="167" alt="Lock Screen widget, rectangular: Steps, 3,750 steps, with a progress bar." loading="lazy" decoding="async">
-          <img class="sat" data-depth="0.35" style="--w:120px;--x:6%;--y:66%" src="assets/widgets/lock-circular.webp" width="216" height="216" alt="Lock Screen widget, circular: 3.8k steps around a ring." loading="lazy" decoding="async">
-          <img class="sat" data-depth="0.7" style="--w:170px;--x:48%;--y:72%" src="assets/widgets/circle-small.webp" width="340" height="340" alt="Circle widget, small, in Coral: #2 in the Race with 3 days left, Ada with the crown ahead of You." loading="lazy" decoding="async">
+          <img class="sat" data-depth="0.9" style="--w:250px;--x:2%;--y:14%" src="assets/widgets/dashboard-large.webp" width="440" height="462" alt="Dashboard widget, large, in Graphite: Wednesday, Sep 23, with 2,656 steps, 2.8 miles, 376 kcal of active energy, exercise days 1 of 5, hourly activity, and 7 hours 7 minutes of sleep." loading="lazy" decoding="async">
+          <img class="sat" data-depth="0.55" style="--w:220px;--x:30%;--y:50%" src="assets/widgets/lock-rectangular.webp" width="400" height="167" alt="Lock Screen widget, rectangular: Steps, 2,656 steps, with a progress bar." loading="lazy" decoding="async">
+          <img class="sat" data-depth="0.35" style="--w:120px;--x:6%;--y:66%" src="assets/widgets/lock-circular.webp" width="216" height="216" alt="Lock Screen widget, circular: 2.7k steps around a ring." loading="lazy" decoding="async">
+          <img class="sat" data-depth="0.7" style="--w:170px;--x:48%;--y:72%" src="assets/widgets/circle-small.webp" width="340" height="340" alt="Circle widget, small, in Coral: Walk to Istanbul, #2 in the Race with 3 days left, Ada with the crown on 40,000 ahead of You on 35,250, and You #2 of 4." loading="lazy" decoding="async">
         </div>
       </section>
 
@@ -430,12 +449,12 @@
           <p>A Race, Target Days, a Team Goal, a Team Streak, or a Journey. Invite anyone by link or a six-character code. Joining a circle is free.</p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/round.webp" width="780" height="1695" alt="The circle Walk to Istanbul in a weekly Race with 5 days left: round standings for four members with you first on 13,092 steps, a note that 1,600 steps added to Health by hand are not counted, and last week's result, Selin Yıldız won the race." loading="lazy" decoding="async">
+          <img src="assets/screens/round.webp" width="780" height="1695" alt="The circle Walk to Istanbul in a weekly Race with 4 days left: round standings for four members with you first on 22,941 steps, 4,492 of them today, Selin Yıldız second with the crown on 21,496, a line saying you are leading by 1,445 steps, and last week's result, Selin Yıldız won the race." loading="lazy" decoding="async">
         </figure>
         <div class="sats">
           <img class="sat" data-depth="0.85" style="--w:280px;--x:4%;--y:14%" src="assets/widgets/circle-medium.webp" width="560" height="262" alt="Circle widget, medium, in Coral: Walk to Istanbul, a Race with 3 days left, Ada with the crown on 40,000, You on 35,250, Ben on 33,000, and You #2 of 4." loading="lazy" decoding="async">
           <img class="sat" data-depth="0.5" style="--w:250px;--x:18%;--y:40%" src="assets/widgets/circle-large.webp" width="440" height="462" alt="Circle widget, large, in Coral: #2 in the Race with 3 days left, You #2 of 4, and the standings — Ada with the crown on 40,000, You on 35,250, Ben on 33,000, Selin on 20,000." loading="lazy" decoding="async">
-          <img class="sat" data-depth="0.3" style="--w:170px;--x:2%;--y:76%" src="assets/widgets/circle-small.webp" width="340" height="340" alt="Circle widget, small, in Coral: #2 in the Race with 3 days left, Ada with the crown ahead of You." loading="lazy" decoding="async">
+          <img class="sat" data-depth="0.3" style="--w:170px;--x:2%;--y:76%" src="assets/widgets/circle-small.webp" width="340" height="340" alt="Circle widget, small, in Coral: Walk to Istanbul, #2 in the Race with 3 days left, Ada with the crown on 40,000 ahead of You on 35,250, and You #2 of 4." loading="lazy" decoding="async">
         </div>
       </section>
 
@@ -445,7 +464,7 @@
           <p>Your circle's steps move along a real route, and every stop reached sends an illustrated postcard. Six routes, or one of your own between two places.</p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/journey.webp" width="780" height="1695" alt="The circle Camino Crew on a Journey: an Apple Maps route through Galicia with the members' markers along it, 32.4 of 71.3 miles walked together, and the illustrated postcard for Portomarín, Stage 1, 13.7 miles from Sarria." loading="lazy" decoding="async">
+          <img src="assets/screens/journey.webp" width="780" height="1695" alt="The circle Camino Crew on a Journey: an Apple Maps route through Galicia with the members' markers along it, 36.1 of 71.3 miles walked together, and the illustrated postcard for Portomarín, Stage 1, 13.7 miles from Sarria." loading="lazy" decoding="async">
         </figure>
         <div class="sats">
           <picture class="sat" data-depth="0.85" style="--w:280px;--x:4%;--y:13%">
@@ -474,10 +493,10 @@
           <p>Share it as a poster.</p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/results.webp" width="780" height="1695" alt="A finished Race, Sep 15 to 21: You won the race. A podium with You on 98,000 steps, Ada second on 70,000 and Ben third on 56,000; you won by 28,000 steps; the awards Winner, +5, and Every day counted, +1; and a laurel bar reading +7, no rank yet, 3 to Bronze." loading="lazy" decoding="async">
+          <img src="assets/screens/results.webp" width="780" height="1695" alt="A finished Race, Sep 16 to 22: You won the race. A podium with You on 98,000 steps, Ada second on 70,000 and Ben third on 56,000; you won by 28,000 steps; the awards Winner, +5, and Every day counted, +1; and a laurel bar reading +7, no rank yet, 3 to Bronze." loading="lazy" decoding="async">
         </figure>
         <div class="sats">
-          <img class="sat" data-depth="0.85" style="--w:210px;--x:4%;--y:10%" src="assets/cards/poster-winner.webp" width="400" height="711" alt="Winner poster in the Aurora finish: Sep 15 to 21, 2026, 98,000 steps, Won the race, The Cedar Street Walkers, 1st of 4, with the four walkers' bars." loading="lazy" decoding="async">
+          <img class="sat" data-depth="0.85" style="--w:210px;--x:4%;--y:10%" src="assets/cards/poster-winner.webp" width="400" height="711" alt="Winner poster in the Aurora finish: Sep 16 to 22, 2026, 98,000 steps, Won the race, The Cedar Street Walkers, 1st of 4, with the four walkers' bars." loading="lazy" decoding="async">
           <img class="sat" data-depth="0.45" style="--w:270px;--x:12%;--y:62%" src="assets/cards/awards.webp" width="480" height="140" alt="Two awards: Winner, +5 laurels, and Every day counted, a surprise, +1 laurel." loading="lazy" decoding="async">
           <img class="sat" data-depth="0.3" style="--w:250px;--x:18%;--y:78%" src="assets/cards/laurels.webp" width="480" height="123" alt="A laurel bar: +7 laurels, no rank yet, 3 to Bronze." loading="lazy" decoding="async">
         </div>
@@ -501,7 +520,7 @@
           <p>Ovyso reads Apple Health directly, so it works with an Apple Watch, Garmin, Oura, Withings, or your iPhone on its own — including the data your Fitbit syncs to Apple Health.</p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/today.webp" width="780" height="1695" alt="The Today screen: Good morning, Tuesday, September 22, a steps ring at 6,092 of 10,000, one workout of 32 minutes, and tiles for distance 2.8 miles, active energy 376 kcal, calories burned 1,826 kcal and exercise days 2 of 5." loading="lazy" decoding="async">
+          <img src="assets/screens/today.webp" width="780" height="1695" alt="The Today screen: Good morning, Wednesday, September 23, the steps ring at 6,092 of 10,000 over a soft orange glow, and glassy tiles for distance 2.8 miles, active energy 376 kcal, calories burned 1,826 kcal and exercise days 2 of 5." loading="lazy" decoding="async">
         </figure>
       </section>
     </div>

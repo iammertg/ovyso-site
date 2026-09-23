@@ -9,7 +9,7 @@
 <meta name="robots" content="noindex">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0c0c0d">
+<meta name="theme-color" content="#16100d">
 <meta property="og:title" content="Join a circle on Ovyso">
 <meta property="og:description" content="A circle is a few friends racing their steps together on Ovyso. Joining is free.">
 <meta name="apple-itunes-app" content="app-id=6810986871, app-argument=https://ovyso.app/join/">
@@ -105,21 +105,20 @@
 })();
 </script>
 <style>
-  /* Same tokens and type as docs/site/index.html: graphite gradient, serif h1, 680px column,
-     footer — this is the same site, not a page with its own look. The accent is the app's brand
-     hue from the Porcelain & Graphite Vivid palette
-     (.superpowers/sdd/2026-09-22-porcelain-vivid/palette-study/porcelain-graphite-vivid.json:
-     `dark.accent`, `accentFill`), chosen on 2026-09-22 — no longer a metric's orange. */
+  /* Same tokens and type as docs/site/index.html: the app's Sunrise chrome (cocoa ground,
+     coral accent, ember fill — Atelier/Support/AppTheme.swift), serif h1, 680px column, footer —
+     this is the same site, not a page with its own look. Scripts/site_check.py holds the tokens to
+     the app's bytes and measures every text colour, the button's two states included. */
   :root {
-    --bg-top: #0c0c0d;
-    --bg-mid: #2a2a2d;
-    --bg-bottom: #404044;
-    --surface: #1c1c1e;
+    --bg-top: #16100d;
+    --bg-mid: #16100d;
+    --bg-bottom: #231b17;
+    --surface: #231b17;
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
-    --accent: #9fb6cc;
-    --accent-deep: #2e4154;
+    --accent: #ff7d57;
+    --accent-deep: #c23d18;
   }
 
   * { box-sizing: border-box; }
@@ -242,13 +241,10 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* accentFill (--accent-deep), the app's own filled-capsule pattern: white text at 10.50:1
-     (MetricTintContrastTests, gate G4). Not the light-fill/dark-text shape the old orange used —
-     --accent-deep is now a dark navy (chosen to hold white, not dark, text; see
-     site-accent-report.md), so a resting fill of --accent with hover swapped to --accent-deep
-     would drop dark button text to ~1.8:1 on hover. Resting and hover invert the same pair
-     instead, and both are measured: white on --accent-deep 10.50:1; --accent-deep on --accent
-     5.02:1. */
+  /* The fill (--accent-deep, #C23D18), the app's own filled capsule: white text at 5.28:1. On
+     hover the capsule lifts to the accent, which white cannot read on (the app's own note on
+     `accentFill`), so the label turns to the ground: #16100D on #FF7D57 at 7.47:1. The old hover,
+     the fill as text on the accent, measures 2.09:1 with these two colours. */
   .btn-primary {
     background: var(--accent-deep);
     color: #ffffff;
@@ -256,7 +252,7 @@
   @media (hover: hover) {
     .btn-primary:hover {
       background: var(--accent);
-      color: var(--accent-deep);
+      color: var(--bg-top);
     }
   }
 
@@ -283,7 +279,7 @@
 
   footer p { margin: 0; }
 
-  a { color: var(--accent); text-decoration: none; border-bottom: 0.5px solid rgba(159, 182, 204, 0.4); }
+  a { color: var(--accent); text-decoration: none; border-bottom: 0.5px solid rgba(255, 125, 87, 0.4); }
   a:hover { border-bottom-color: var(--accent); }
   footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
   .btn-primary, .btn-primary:hover { border-bottom: none; }

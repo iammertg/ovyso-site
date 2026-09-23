@@ -6,19 +6,19 @@
 <title>Ovyso — Support</title>
 <style>
   :root {
-    /* Graphite finish ground (AtelierKit/Sources/Models/Finish.swift), the same tokens as
-       index.html. The accent is the app's brand hue from the Porcelain & Graphite Vivid palette
-       (.superpowers/sdd/2026-09-22-porcelain-vivid/palette-study/porcelain-graphite-vivid.json:
-       `dark.accent`, `accentFill`), chosen on 2026-09-22 — no longer a metric's orange. */
-    --bg-top: #0c0c0d;
-    --bg-mid: #2a2a2d;
-    --bg-bottom: #404044;
-    --surface: #1c1c1e;
+    /* The app's own chrome, Sunrise (Atelier/Support/AppTheme.swift), the same tokens as
+       index.html: the cocoa ground #16100D easing into the #231B17 card colour by the foot, the
+       coral accent #FF7D57 and its fill #C23D18. Scripts/site_check.py holds them to the app's
+       bytes and measures every text colour on every stop. */
+    --bg-top: #16100d;
+    --bg-mid: #16100d;
+    --bg-bottom: #231b17;
+    --surface: #231b17;
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
-    --accent: #9fb6cc;
-    --accent-deep: #2e4154;
+    --accent: #ff7d57;
+    --accent-deep: #c23d18;
   }
 
   * { box-sizing: border-box; }
@@ -169,7 +169,7 @@
   }
 
   code {
-    background: rgba(159, 182, 204, 0.12);
+    background: rgba(255, 125, 87, 0.12);
     color: var(--accent);
     padding: 1px 6px;
     border-radius: 5px;
@@ -179,7 +179,7 @@
   a {
     color: var(--accent);
     text-decoration: none;
-    border-bottom: 0.5px solid rgba(159, 182, 204, 0.4);
+    border-bottom: 0.5px solid rgba(255, 125, 87, 0.4);
   }
   a:hover { border-bottom-color: var(--accent); }
 
