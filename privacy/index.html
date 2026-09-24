@@ -19,6 +19,7 @@
     --ink-muted: #b8b8bc;
     --accent: #ff7d57;
     --accent-deep: #c23d18;
+    --shadow: rgba(0, 0, 0, 0.55);
   }
 
   * { box-sizing: border-box; }
@@ -38,19 +39,30 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* The home page's masthead, on a page's own column: the name top left is the way home. */
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+  }
+  .brand {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    color: var(--ink);
+    border: 0;
+  }
+  .masthead nav { display: flex; gap: 22px; font-size: 14px; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a:hover, .masthead nav a[aria-current="page"] { color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
   .page {
     max-width: 680px;
     margin: 0 auto;
-    padding: 72px 24px 120px;
-  }
-
-  .eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 14px;
+    padding: 48px 24px 120px;
   }
 
   h1 {
@@ -177,15 +189,51 @@
 
   footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
 
+  /* Back to top: out of the way until the reader is a screen down a long page, then a
+     44 pt button in the corner, clear of the home indicator. */
+  .to-top, .to-top:hover {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: var(--ink);
+    background: var(--surface);
+    border: 0.5px solid var(--hairline);
+    box-shadow: 0 8px 24px var(--shadow);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .to-top.shown {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s;
+  }
+  .to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    .to-top, .to-top.shown { transform: none; transition: none; }
+  }
+
   @media (max-width: 480px) {
-    .page { padding: 48px 20px 96px; }
+    .masthead { padding: 18px 20px 0; }
+    .page { padding: 32px 20px 96px; }
     h1 { font-size: 32px; }
   }
 </style>
 </head>
 <body>
+  <header class="masthead" id="top">
+    <a class="brand" href="/">Ovyso</a>
+    <nav aria-label="Site"><a href="/support/">Support</a><a href="/privacy/" aria-current="page">Privacy</a></nav>
+  </header>
   <main class="page">
-    <p class="eyebrow">Ovyso</p>
     <h1>Privacy Policy</h1>
     <p class="dek">In short: your health data stays on your iPhone. The one exception is Circles, which is optional, needs an account, and shares your daily step count, the distance you covered and the daily goal you set with the other members of that Circle.</p>
     <span class="effective-date">Effective September 21, 2026</span>
@@ -275,8 +323,27 @@
     </section>
 
     <footer>
-      <p>Ovyso · <a href="/support/">Support</a></p>
+      <p><a href="/">Ovyso</a> · <a href="/support/">Support</a></p>
     </footer>
   </main>
+  <a class="to-top" href="#top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <script>
+    // Back to top: shown once the reader is a screen down; a smooth scroll unless they asked for less
+    // motion, and focus back on the brand, where a keyboard's next Tab starts over.
+    (() => {
+      const button = document.querySelector('.to-top');
+      const update = () => button.classList.toggle('shown', window.scrollY > window.innerHeight);
+      addEventListener('scroll', update, {passive: true});
+      update();
+      button.addEventListener('click', event => {
+        event.preventDefault();
+        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        scrollTo({top: 0, behavior: still ? 'auto' : 'smooth'});
+        document.querySelector('.brand').focus({preventScroll: true});
+      });
+    })();
+  </script>
 </body>
 </html>

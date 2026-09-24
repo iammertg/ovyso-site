@@ -284,7 +284,28 @@
   footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
   .btn-primary, .btn-primary:hover { border-bottom: none; }
 
+  /* The home page's masthead, on a page's own column: the name top left is the way home. */
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+  }
+  .brand {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    color: var(--ink);
+    border: 0;
+  }
+  .masthead nav { display: flex; gap: 22px; font-size: 14px; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a:hover, .masthead nav a[aria-current="page"] { color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
   @media (max-width: 480px) {
+    .masthead { padding: 18px 20px 0; }
     .page { padding: 24px 20px 20px; }
     h1 { font-size: 32px; }
     .code { font-size: 56px; }
@@ -292,6 +313,10 @@
 </style>
 </head>
 <body>
+  <header class="masthead" id="top">
+    <a class="brand" href="/">Ovyso</a>
+    <nav aria-label="Site"><a href="/support/">Support</a><a href="/privacy/">Privacy</a></nav>
+  </header>
   <main class="page">
     <p class="eyebrow">Ovyso · Circles</p>
     <h1><span class="h-default">You’re invited to a circle.</span><span class="h-fallback">This invite link isn’t complete.</span></h1>
@@ -319,7 +344,7 @@
     </div>
 
     <footer>
-      <p>Ovyso · <a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
+      <p><a href="/">Ovyso</a> · <a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
     </footer>
   </main>
 </body>
