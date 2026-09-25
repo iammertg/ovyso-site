@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add a friend on Ovyso</title>
+<meta name="description" content="Friends on Ovyso see each other’s steps today and this week.">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#16100d">
+<meta property="og:title" content="Add a friend on Ovyso">
+<meta property="og:description" content="Friends on Ovyso see each other’s steps today and this week.">
+<meta name="apple-itunes-app" content="app-id=6810986871, app-argument=https://ovyso.app/add/">
+<script>
+(function () {
+  // The one place this page decides what it is showing. `u` in the query string is untrusted input
+  // — it is only ever pattern-tested here, never written to the DOM as anything but the validated,
+  // lower-cased result (see AtelierKit/Sources/Friends/FriendUsername.swift, the same rule in Swift
+  // — Scripts/publish_site.sh reads that file live and fails the build if this page's pattern or
+  // reserved list drifts from it). Everything else about the query string, including an unmatched
+  // value, is read and discarded, never reflected.
+  var USERNAME_PATTERN = /^[a-z0-9][a-z0-9._]{1,18}[a-z0-9_]$/;
+  // FriendUsername.reserved, verbatim — a name nobody can claim, so a link naming one (?u=support,
+  // ?u=ovyso) must never read as though it points at a real, official account.
+  var RESERVED = [
+    'ovyso', 'atelier', 'admin', 'administrator', 'support', 'help', 'official', 'team', 'staff',
+    'moderator', 'apple', 'root', 'system', 'null', 'undefined', 'anonymous', 'me', 'you',
+    'friend', 'friends', 'add', 'join', 'circle', 'circles', 'privacy', 'settings'
+  ];
+  var values = new URLSearchParams(location.search).getAll('u');
+  var username = null;
+  if (values.length === 1) {
+    var raw = values[0];
+    // A username is ASCII by construction — FriendUsername.pattern only ever matches a-z 0-9 . _ —
+    // so raw must be checked as ASCII before anything else is asked of it, and before lower-casing:
+    // some non-ASCII characters case-fold to a plain ASCII letter under toLowerCase() (the Kelvin
+    // sign, U+212A, becomes "k"), so testing the pattern on the lower-cased value alone would accept
+    // a raw value that was never ASCII — a look-alike, not the letter it displays as. A string is
+    // ASCII exactly when its length equals its UTF-8 byte length; every non-ASCII character costs
+    // more bytes than it costs length. Length is also checked before lower-casing, not after, for
+    // the reason join/index.html's own comment gives (lower-casing is not always length-preserving).
+    var isAscii = raw.length === new TextEncoder().encode(raw).length;
+    if (isAscii && raw.length >= 3 && raw.length <= 20) {
+      var lower = raw.toLowerCase();
+      if (USERNAME_PATTERN.test(lower) && lower.indexOf('..') === -1 && RESERVED.indexOf(lower) === -1) {
+        username = lower;
+      }
+    }
+  }
+
+  // Set before <body> exists, so the stylesheet's [data-state] rules are already correct for the
+  // first paint — no flash of the other state.
+  var state = username ? 'profile' : 'fallback';
+  document.documentElement.dataset.state = state;
+
+  if (state === 'profile') {
+    var banner = document.querySelector('meta[name="apple-itunes-app"]');
+    if (banner) {
+      banner.setAttribute('content', 'app-id=6810986871, app-argument=https://ovyso.app/add/?u=' + username);
+    }
+  }
+
+  // The rest needs <body> to exist, so it waits for parsing to finish.
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!username) { return; }
+    var nameEls = document.querySelectorAll('[data-username]');
+    for (var i = 0; i < nameEls.length; i++) {
+      nameEls[i].textContent = username;
+    }
+    var openLink = document.querySelector('[data-open-link]');
+    if (openLink) {
+      openLink.setAttribute('href', 'atelier://friend/' + username);
+    }
+  });
+})();
+</script>
+<style>
+  /* Same tokens and type as docs/site/join/index.html: the app's Sunrise chrome (cocoa ground,
+     coral accent, ember fill — Atelier/Support/AppTheme.swift), serif h1, 680px column, footer —
+     this is the same site, not a page with its own look. Scripts/site_check.py holds the tokens to
+     the app's bytes and measures every text colour. The add page is the join page's twin (task P1):
+     same CSP, same masthead and footer, same security posture — nothing from the query is reflected
+     except the validated username. */
+  :root {
+    --bg-top: #16100d;
+    --bg-mid: #16100d;
+    --bg-bottom: #231b17;
+    --surface: #231b17;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --ink: #ffffff;
+    --ink-muted: #b8b8bc;
+    --accent: #ff7d57;
+    --accent-deep: #c23d18;
+  }
+
+  * { box-sizing: border-box; }
+
+  p { text-wrap: pretty; }
+  .ui-label { white-space: nowrap; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-top);
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 680px;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0 auto;
+    padding: 32px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  /* The headline is state-driven from the same [data-state] the script sets before <body> exists.
+     The default span is also the fallback text — "Add a friend on Ovyso" never needs the username,
+     so a visitor with JS off, or in the instant before the script runs, never sees a blank "@ wants
+     to walk with you". Only once state=profile is known does the profile span take over. */
+  .h-profile { display: none; }
+  html[data-state="profile"] .h-default { display: none; }
+  html[data-state="profile"] .h-profile { display: inline; }
+
+  .dek {
+    color: var(--ink-muted);
+    font-size: 16px;
+    margin: 0 0 20px;
+  }
+
+  /* Hidden until the script names a state; a no-JS visitor never sees either. */
+  .only-profile, .only-fallback { display: none; }
+  html[data-state="profile"] .only-profile { display: block; }
+  html[data-state="fallback"] .only-fallback { display: block; }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 18px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    border: 0.5px solid transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* The fill (--accent-deep, #C23D18), the app's own filled capsule: white text at 5.28:1. On
+     hover the capsule lifts to the accent, which white cannot read on (the app's own note on
+     `accentFill`), so the label turns to the ground: #16100D on #FF7D57 at 7.47:1. Same rule as
+     join/index.html's own button; docs/site/README.md holds both to the same measured pair. */
+  .btn-primary {
+    background: var(--accent-deep);
+    color: #ffffff;
+  }
+  @media (hover: hover) {
+    .btn-primary:hover {
+      background: var(--accent);
+      color: var(--bg-top);
+    }
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--hairline);
+    color: var(--ink);
+  }
+
+  .help {
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    margin: 0 0 8px;
+  }
+  .help:last-of-type { margin-bottom: 0; }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  footer p { margin: 0; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 0.5px solid rgba(255, 125, 87, 0.4); }
+  a:hover { border-bottom-color: var(--accent); }
+  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+  .btn-primary, .btn-primary:hover, .btn-secondary { border-bottom: none; }
+
+  /* The home page's masthead, on a page's own column: the name top left is the way home. */
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+  }
+  .brand {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    color: var(--ink);
+    border: 0;
+  }
+  .masthead nav { display: flex; gap: 22px; font-size: 14px; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a:hover, .masthead nav a[aria-current="page"] { color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  @media (max-width: 480px) {
+    .masthead { padding: 18px 20px 0; }
+    .page { padding: 24px 20px 20px; }
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+  <header class="masthead" id="top">
+    <a class="brand" href="/">Ovyso</a>
+    <nav aria-label="Site"><a href="/support/">Support</a><a href="/privacy/">Privacy</a></nav>
+  </header>
+  <main class="page">
+    <p class="eyebrow">Ovyso · Friends</p>
+    <h1><span class="h-default">Add a friend on Ovyso</span><span class="h-profile">@<span data-username></span> wants to walk with you</span></h1>
+    <noscript><p class="dek">Your friend’s username is in the link after “u=”.</p></noscript>
+
+    <div class="only-profile">
+      <p class="dek">Friends on Ovyso see each other’s steps today and this week.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://apps.apple.com/app/id6810986871">Get Ovyso</a>
+        <a class="btn btn-secondary" data-open-link href="#">Open in Ovyso</a>
+      </div>
+      <p class="help">Already have Ovyso? Tap <span class="ui-label">Open in Ovyso</span> above.</p>
+      <p class="help">New to Ovyso? Install it, then open this link again.</p>
+    </div>
+
+    <div class="only-fallback">
+      <p class="dek">This link doesn’t name a valid Ovyso username. Ask them to send it again, or open Ovyso and add them by username instead.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://apps.apple.com/app/id6810986871">Get Ovyso</a>
+      </div>
+    </div>
+
+    <footer>
+      <p><a href="/">Ovyso</a> · <a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
+    </footer>
+  </main>
+</body>
+</html>
