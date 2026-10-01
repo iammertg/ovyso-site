@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A free copy of Ovyso Pro</title>
+<meta name="description" content="Redeem Ovyso Pro — the one-time unlock — at no cost, through the App Store.">
+<!-- Unlisted on purpose: the offer has a fixed number of redemptions, and a search result would
+     spend them on people who were never handed the link. Nothing links here from the site either.
+     Drop this tag to make it a public page. -->
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    /* The app's own chrome, Sunrise (Atelier/Support/AppTheme.swift), the same tokens as
+       index.html and support.html. Scripts/site_check.py holds them to the app's bytes and
+       measures every text colour on every stop. */
+    --bg-top: #16100d;
+    --bg-mid: #16100d;
+    --bg-bottom: #231b17;
+    --surface: #231b17;
+    --hairline: rgba(255, 255, 255, 0.14);
+    --ink: #ffffff;
+    --ink-muted: #b8b8bc;
+    --accent: #ff7d57;
+    --accent-deep: #c23d18;
+    --shadow: rgba(0, 0, 0, 0.55);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-top);
+  }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--bg-top) 0%, var(--bg-mid) 55%, var(--bg-bottom) 100%);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The home page's masthead, on a page's own column: the name top left is the way home. */
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+  }
+  .brand {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    color: var(--ink);
+    border: 0;
+  }
+  .masthead nav { display: flex; gap: 22px; font-size: 14px; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a:hover { color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 120px;
+  }
+
+  h1 {
+    font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+
+  .dek {
+    color: var(--ink-muted);
+    font-size: 16px;
+    margin: 0 0 28px;
+  }
+
+  /* The redeem control, the app's own filled capsule: white on --accent-deep at 5.28:1, and on
+     hover the capsule lifts to the accent with the ground as its label, 7.47:1. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    text-decoration: none;
+    border: 0.5px solid transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-primary {
+    background: var(--accent-deep);
+    color: #ffffff;
+  }
+  @media (hover: hover) {
+    .btn-primary:hover {
+      background: var(--accent);
+      color: var(--bg-top);
+    }
+  }
+
+  .help {
+    color: var(--ink-muted);
+    font-size: 13.5px;
+    margin: 14px 0 0;
+  }
+
+  .hairline {
+    border: none;
+    border-top: 0.5px solid var(--hairline);
+    margin: 44px 0;
+  }
+
+  section h2 {
+    font-family: ui-serif, "New York", Georgia, serif;
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+
+  section p {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+    margin: 0 0 16px;
+  }
+
+  section ol, section ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15.5px;
+  }
+
+  section li { margin-bottom: 8px; }
+
+  section + section { margin-top: 40px; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(255, 125, 87, 0.4);
+  }
+  a:hover { border-bottom-color: var(--accent); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--hairline);
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+
+  /* Back to top: out of the way until the reader is a screen down a long page, then a
+     44 pt button in the corner, clear of the home indicator. */
+  .to-top, .to-top:hover {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: var(--ink);
+    background: var(--surface);
+    border: 0.5px solid var(--hairline);
+    box-shadow: 0 8px 24px var(--shadow);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .to-top.shown {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s;
+  }
+  .to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    .to-top, .to-top.shown { transform: none; transition: none; }
+  }
+
+  @media (max-width: 480px) {
+    .masthead { padding: 18px 20px 0; }
+    .page { padding: 32px 20px 96px; }
+    h1 { font-size: 32px; }
+    .btn { display: flex; }
+  }
+</style>
+</head>
+<body>
+  <header class="masthead" id="top">
+    <a class="brand" href="/">Ovyso</a>
+    <nav aria-label="Site"><a href="/support/">Support</a><a href="/privacy/">Privacy</a></nav>
+  </header>
+  <main class="page">
+    <h1>A free copy of Ovyso Pro</h1>
+    <p class="dek">Pro is Ovyso's one-time unlock. This link hands it to you at no cost.</p>
+
+    <a class="btn btn-primary" href="https://apps.apple.com/redeem?ctx=offercodes&amp;id=6810986871&amp;code=OVYSO500">Redeem on your iPhone</a>
+    <p class="help">Open this page on the iPhone you want Pro on. The link hands off to the App Store app, so a desktop browser shows an empty page and nothing happens.</p>
+
+    <hr class="hairline">
+
+    <section>
+      <h2>How it goes</h2>
+      <ol>
+        <li><strong>Tap Redeem.</strong> The App Store opens with the offer and asks you to confirm. It costs nothing.</li>
+        <li><strong>Let it install Ovyso</strong> if you don't have the app yet. If the App Store doesn't offer to, install Ovyso first and tap Redeem again.</li>
+        <li><strong>Open Ovyso.</strong> Pro is on. If it isn't, Settings inside the app → Restore Purchases re-applies it.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>What Pro is</h2>
+      <p>Everything Ovyso keeps behind one purchase, which this covers in full:</p>
+      <ul>
+        <li>As many widget designs as you like in the Studio, past the two the free tier keeps.</li>
+        <li>All seven finishes.</li>
+        <li>Circles of your own to host — joining a Circle somebody else invites you to is free, always.</li>
+      </ul>
+      <p>It stays on your Apple Account for good. Ovyso has no subscription of any kind, so nothing is charged now or later.</p>
+    </section>
+
+    <section>
+      <h2>The small print</h2>
+      <ul>
+        <li>One redemption per Apple Account.</li>
+        <li>There is a fixed number of them. When they run out, the link stops working.</li>
+        <li>The offer is Apple's own, redeemed through the App Store — Ovyso never sees anything about your account or your payment details.</li>
+      </ul>
+      <p>If the link turns you away, write to <a href="mailto:support@ovyso.app">support@ovyso.app</a> and say what the App Store told you.</p>
+    </section>
+
+    <footer>
+      <p><a href="/">Ovyso</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/support/">Support</a></p>
+    </footer>
+  </main>
+  <a class="to-top" href="#top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <script>
+    // Back to top: shown once the reader is a screen down; a smooth scroll unless they asked for less
+    // motion, and focus back on the brand, where a keyboard's next Tab starts over.
+    (() => {
+      const button = document.querySelector('.to-top');
+      const update = () => button.classList.toggle('shown', window.scrollY > window.innerHeight);
+      addEventListener('scroll', update, {passive: true});
+      update();
+      button.addEventListener('click', event => {
+        event.preventDefault();
+        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        scrollTo({top: 0, behavior: still ? 'auto' : 'smooth'});
+        document.querySelector('.brand').focus({preventScroll: true});
+      });
+    })();
+  </script>
+</body>
+</html>
