@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ovyso — Health widgets, crafted</title>
-<meta name="description" content="Ovyso turns the steps, sleep, heart rate and vitals already in Apple Health into Home Screen and Lock Screen widgets you design yourself, and walks with friends in Circles. Coming soon to the App Store for iPhone.">
+<meta name="description" content="Ovyso turns the steps, sleep, heart rate and vitals already in Apple Health into Home Screen and Lock Screen widgets you design yourself, and walks with friends in Circles. On the App Store for iPhone.">
+<meta name="apple-itunes-app" content="app-id=6810986871">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#16100d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fbf1e8" media="(prefers-color-scheme: light)">
@@ -38,6 +39,9 @@
     --accent-deep: #c23d18;
     --link: #ff7d57;
     --link-underline: rgba(255, 125, 87, 0.4);
+    /* The App Store button's label on the accent when hovered: the ground, 7.47:1 on #FF7D57. */
+    --on-accent: #16100d;
+    --get-hover: var(--accent);
     /* The three glows that follow the app's data hues (MetricPalette.swift): Circles gold for
        Circles and the result, the steps ramp for Today — the dark ramp here, the light one below. */
     --circles: #fd9f00;
@@ -78,6 +82,10 @@
       --accent: #e0512a;
       --accent-deep: #c23d18;
       --link: #c23d18;
+      /* Neither linen (3.50:1) nor white (3.90:1) reads on the light accent, so in light mode the
+         hovered button keeps its fill and its white label, and the accent ring alone shows it. */
+      --on-accent: #ffffff;
+      --get-hover: var(--accent-deep);
       --link-underline: rgba(194, 61, 24, 0.4);
       --circles: #b97200;
       --steps-1: #ff7455;
@@ -155,6 +163,24 @@
   }
   .words p:last-child { margin-bottom: 0; }
   .words .note { color: var(--ink-muted); font-size: 15px; }
+  /* The App Store link, since 1.2.1 went out on 2026-10-14: join/index.html's primary button, the
+     app's deep ember fill under white (5.30:1), the accent under the ground on hover. */
+  .get {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    border: 0;
+    background: var(--accent-deep);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  @media (hover: hover) {
+    .get:hover { background: var(--get-hover); color: var(--on-accent); box-shadow: 0 0 0 2px var(--accent); }
+  }
 
   /* ---- The stacked page: phones, and any browser that asks for less motion ---- */
 
@@ -418,12 +444,12 @@
         <div class="screen">
           <img class="layer" src="assets/screens/home.webp" width="780" height="1695" alt="" style="opacity:1" fetchpriority="high" decoding="async">
           <img class="layer" data-src="assets/screens/widgets.webp" width="780" height="1695" alt="" decoding="async">
-          <img class="layer" data-src="assets/screens/studio.webp" width="780" height="1695" alt="" decoding="async">
+          <img class="layer" data-src="assets/screens/studio.webp" width="780" height="1696" alt="" decoding="async">
           <img class="layer" data-src="assets/screens/round.webp" width="780" height="1695" alt="" decoding="async">
           <img class="layer" data-src="assets/screens/journey.webp" width="780" height="1695" alt="" decoding="async">
           <img class="layer" data-src="assets/screens/results.webp" width="780" height="1695" alt="" decoding="async">
           <img class="layer" data-src="assets/screens/privacy.webp" width="780" height="1695" alt="" decoding="async">
-          <img class="layer" data-src="assets/screens/today.webp" width="780" height="1695" alt="" decoding="async">
+          <img class="layer" data-src="assets/screens/today.webp" width="780" height="1696" alt="" decoding="async">
         </div>
       </div>
     </div>
@@ -436,7 +462,8 @@
         <div class="words">
           <h1 id="h-open">Health widgets, crafted.</h1>
           <p>The steps, sleep, heart rate and vitals already in Apple Health, as Home Screen and Lock Screen widgets you design yourself.</p>
-          <p class="note">For iPhone. Coming soon to the App Store.</p>
+          <p><a class="get" href="https://apps.apple.com/app/id6810986871">Get Ovyso on the App Store</a></p>
+          <p class="note">For iPhone.</p>
         </div>
         <figure class="shot frame">
           <img src="assets/screens/home.webp" width="780" height="1695" alt="iPhone Home Screen with two Ovyso widgets among the usual apps: a Rings widget in the Aurora finish showing 6,092 steps, 376 kcal and 24 minutes of exercise, and a Steps widget in Graphite reading 6,092 of 10,000, 61 percent of the goal, and 2.8 miles." fetchpriority="high" decoding="async">
@@ -465,7 +492,7 @@
           <p>Seven finishes. Aurora, Graphite and Paper are free; Coral, Ocean, Forest and Solar come with Ovyso Pro.</p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/studio.webp" width="780" height="1695" alt="The Studio editing a new design: a Rings preview at the Small size in Aurora, the metrics it shows with Steps, Energy and Exercise ticked and Distance, Floors and Sleep left out, and the Finish row with Aurora selected, Graphite and Paper free and Coral and Ocean marked Pro." loading="lazy" decoding="async">
+          <img src="assets/screens/studio.webp" width="780" height="1696" alt="The Studio editing a new design: a Rings preview at the Small size in Aurora, Active Energy and Exercise Minutes in its list of metrics, Steps, Energy and Exercise ticked and Distance, Floors and Sleep left out, and the Finish row beginning beneath." loading="lazy" decoding="async">
         </figure>
         <div class="sats">
           <img class="sat" data-depth="0.85" style="--w:168px;--x:6%;--y:16%" src="assets/finishes/coral.webp" width="504" height="505" alt="The Rings design in the Coral finish." loading="lazy" decoding="async">
@@ -493,7 +520,7 @@
       <section class="scene" id="journey" data-pose="0 0 0 0 0 1.05" aria-labelledby="h-journey">
         <div class="words">
           <h2 id="h-journey">Or walk the Camino together.</h2>
-          <p>Your circle's steps move along a real route, and every stop reached sends an illustrated postcard. Six routes, or one of your own between two places.</p>
+          <p>Your circle's steps move along a real route, and every stop reached sends an illustrated postcard. Twenty-one routes, or one of your own between two places.</p>
         </div>
         <figure class="shot frame">
           <img src="assets/screens/journey.webp" width="780" height="1695" alt="The circle's passport for the Camino de Santiago, September 23 to October 2: stamps for Sarria, Portomarín and Palas de Rei, and the illustrated postcard for Portomarín — Stage 1, 13.7 miles from Sarria — telling how the Belesar reservoir flooded the old town in the 1960s." loading="lazy" decoding="async">
@@ -547,12 +574,13 @@
 
       <section class="scene flip" id="get" data-pose="-6 3 0 0 0 1" aria-labelledby="h-get">
         <div class="words">
-          <h2 id="h-get">Coming soon to the App Store.</h2>
+          <h2 id="h-get">On the App Store now.</h2>
           <p>The core app is free. Ovyso Pro removes the design limit, unlocks all seven finishes and lets you host circles of your own — one payment, no subscription.</p>
           <p>Ovyso reads Apple Health directly, so it works with an Apple Watch, Garmin, Oura, Withings, or your iPhone on its own — including the data your Fitbit syncs to Apple Health.</p>
+          <p><a class="get" href="https://apps.apple.com/app/id6810986871">Get Ovyso on the App Store</a></p>
         </div>
         <figure class="shot frame">
-          <img src="assets/screens/today.webp" width="780" height="1695" alt="The Today screen: Good morning, Friday, September 25, the steps ring at 6,092 of 10,000 over a soft orange glow, and glassy tiles for distance 2.8 miles, active energy 376 kcal, calories burned 1,826 kcal and exercise days 4 of 5." loading="lazy" decoding="async">
+          <img src="assets/screens/today.webp" width="780" height="1696" alt="The Today screen: Good morning, the steps ring at 6,092 of 10,000 over a soft orange glow, and glassy tiles for distance 2.8 miles, active energy 376 kcal, calories burned 1,826 kcal and exercise days 2 of 5." loading="lazy" decoding="async">
         </figure>
       </section>
     </div>
