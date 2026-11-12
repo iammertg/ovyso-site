@@ -697,9 +697,11 @@
 
     // The screen and the glow crossfade in the middle of the run between two poses. A layer that
     // has not loaded yet is never shown: the loaded one holds until the other arrives.
+    // The outgoing screen stays whole and the incoming one, later in the stack, fades in over it:
+    // two half-clear screens over the black screen let the black through, a dark blink mid-swap.
     load(i); load(i + 1); load(i + 2);
     const c = ease(clamp((t - 0.38) / 0.24, 0, 1));
-    let ca = 1 - c, cb = c;
+    let ca = 1, cb = c;
     const ra = ready(layers[i]), rb = ready(layers[i + 1]);
     if (ra || rb) {
       if (!ra) { ca = 0; cb = 1; } else if (!rb) { ca = 1; cb = 0; }
