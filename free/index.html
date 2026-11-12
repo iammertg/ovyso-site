@@ -4,6 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A free copy of Ovyso Pro</title>
+<link rel="canonical" href="https://ovyso.app/free/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ovyso">
+<meta property="og:url" content="https://ovyso.app/free/">
+<meta property="og:title" content="A free copy of Ovyso Pro">
+<meta property="og:description" content="Redeem Ovyso Pro — the one-time unlock — at no cost, through the App Store.">
+<meta property="og:image" content="https://ovyso.app/assets/share/ovyso.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ovyso: Health widgets, crafted.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#16100d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbf1e8" media="(prefers-color-scheme: light)">
 <meta name="description" content="Redeem Ovyso Pro — the one-time unlock — at no cost, through the App Store.">
 <!-- Unlisted on purpose: the offer has a fixed number of redemptions, and a search result would
      spend them on people who were never handed the link. Nothing links here from the site either.
@@ -21,9 +38,50 @@
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
+    --ink-body: rgba(255, 255, 255, 0.88);
+    --ink-soft: rgba(255, 255, 255, 0.82);
     --accent: #ff7d57;
     --accent-deep: #c23d18;
+    --link: #ff7d57;
+    --link-underline: rgba(255, 125, 87, 0.4);
+    /* The primary button hovered: the accent under the ground, 7.47:1. */
+    --button-hover: var(--accent);
+    --on-button-hover: #16100d;
+    --code-ink: #ff7d57;
+    --code-wash: rgba(255, 125, 87, 0.12);
+    --chip: rgba(255, 255, 255, 0.08);
+    --selection: rgba(255, 125, 87, 0.32);
     --shadow: rgba(0, 0, 0, 0.55);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Light mode, as index.html's: the linen ground under white cards. The light accent #E0512A reads
+     3.50:1 on the linen, enough for the focus ring and drawn marks but not for text, so links and
+     labels take the fill #C23D18 (4.74:1); the hovered button keeps its fill and white label, 5.28:1,
+     with the accent ring round it; code is set in ink on the coral wash. */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg-top: #fbf1e8;
+      --bg-mid: #fbf1e8;
+      --bg-bottom: #ffffff;
+      --surface: #ffffff;
+      --hairline: rgba(28, 25, 23, 0.12);
+      --ink: #1a1a1a;
+      --ink-muted: #5c5c60;
+      --ink-body: rgba(26, 26, 26, 0.88);
+      --ink-soft: rgba(26, 26, 26, 0.82);
+      --accent: #e0512a;
+      --accent-deep: #c23d18;
+      --link: #c23d18;
+      --link-underline: rgba(194, 61, 24, 0.4);
+      --button-hover: var(--accent-deep);
+      --on-button-hover: #ffffff;
+      --code-ink: #1a1a1a;
+      --code-wash: rgba(224, 81, 42, 0.12);
+      --chip: rgba(28, 25, 23, 0.06);
+      --selection: rgba(224, 81, 42, 0.22);
+      --shadow: rgba(35, 27, 15, 0.28);
+    }
   }
 
   * { box-sizing: border-box; }
@@ -43,6 +101,11 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  html { -webkit-text-size-adjust: 100%; }
+  ::selection { background: var(--selection); color: var(--ink); }
+  h1, h2, h3 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+
   /* The home page's masthead, on a page's own column: the name top left is the way home. */
   .masthead {
     display: flex;
@@ -57,9 +120,12 @@
     font-size: 22px;
     color: var(--ink);
     border: 0;
+    padding: 6px 0;
+    margin: -6px 0;
   }
+  /* Padding with an equal negative margin: a 44 pt target for the name and each link, nothing moved. */
   .masthead nav { display: flex; gap: 22px; font-size: 14px; }
-  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; padding: 12px 0; margin: -12px 0; }
   .masthead nav a:hover { color: var(--ink); }
   a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
@@ -107,9 +173,18 @@
   }
   @media (hover: hover) {
     .btn-primary:hover {
-      background: var(--accent);
-      color: var(--bg-top);
+      background: var(--button-hover);
+      color: var(--on-button-hover);
+      box-shadow: 0 0 0 2px var(--accent);
     }
+  }
+
+  /* Pressed, a button gives a little under the finger; focused, the ring follows its corners. */
+  .btn { transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, transform 0.12s var(--ease-out); touch-action: manipulation; }
+  .btn:active { transform: scale(0.97); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 12px; }
+  @media (prefers-reduced-motion: reduce) {
+    .btn:active { transform: none; }
   }
 
   .help {
@@ -133,16 +208,16 @@
   }
 
   section p {
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 15.5px;
+    color: var(--ink-body);
+    font-size: 16px;
     margin: 0 0 16px;
   }
 
   section ol, section ul {
     margin: 0 0 16px;
     padding-left: 20px;
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 15.5px;
+    color: var(--ink-body);
+    font-size: 16px;
   }
 
   section li { margin-bottom: 8px; }
@@ -150,21 +225,26 @@
   section + section { margin-top: 40px; }
 
   a {
-    color: var(--accent);
+    color: var(--link);
     text-decoration: none;
-    border-bottom: 0.5px solid rgba(255, 125, 87, 0.4);
+    border-bottom: 0.5px solid var(--link-underline);
+    transition: color 0.16s ease, border-color 0.16s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
-  a:hover { border-bottom-color: var(--accent); }
+  a:hover { border-bottom-color: var(--link); }
 
+  /* The close, as index.html's: links spaced apart (no dots between them), each a 44 pt target. */
   footer {
     margin-top: 56px;
     padding-top: 24px;
     border-top: 0.5px solid var(--hairline);
     color: var(--ink-muted);
-    font-size: 13px;
+    font-size: 14px;
   }
-
-  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+  footer nav { display: flex; flex-wrap: wrap; gap: 24px 28px; }
+  footer a { color: var(--ink-muted); border-bottom-color: transparent; padding: 12px 0; margin: -12px 0; min-width: 44px; }
+  footer a:hover { color: var(--ink); border-bottom-color: transparent; }
 
   /* Back to top: out of the way until the reader is a screen down a long page, then a
      44 pt button in the corner, clear of the home indicator. */
@@ -213,7 +293,7 @@
   </header>
   <main class="page">
     <h1>A free copy of Ovyso Pro</h1>
-    <p class="dek">Pro is Ovyso's one-time unlock. This link hands it to you at no cost.</p>
+    <p class="dek">Pro is Ovyso’s one-time unlock. This link hands it to you at no cost.</p>
 
     <a class="btn btn-primary" href="https://apps.apple.com/redeem?ctx=offercodes&amp;id=6810986871&amp;code=OVYSO500">Redeem on your iPhone</a>
     <p class="help">Open this page on the iPhone you want Pro on. The link hands off to the App Store app, so a desktop browser shows an empty page and nothing happens.</p>
@@ -224,8 +304,8 @@
       <h2>How it goes</h2>
       <ol>
         <li><strong>Tap Redeem.</strong> The App Store opens with the offer and asks you to confirm. It costs nothing.</li>
-        <li><strong>Let it install Ovyso</strong> if you don't have the app yet. If the App Store doesn't offer to, install Ovyso first and tap Redeem again.</li>
-        <li><strong>Open Ovyso.</strong> Pro is on. If it isn't, Settings inside the app → Restore Purchases re-applies it.</li>
+        <li><strong>Let it install Ovyso</strong> if you don’t have the app yet. If the App Store doesn’t offer to, install Ovyso first and tap Redeem again.</li>
+        <li><strong>Open Ovyso.</strong> Pro is on. If it isn’t, Settings inside the app → Restore Purchases re-applies it.</li>
       </ol>
     </section>
 
@@ -245,13 +325,13 @@
       <ul>
         <li>One redemption per Apple Account.</li>
         <li>There is a fixed number of them. When they run out, the link stops working.</li>
-        <li>The offer is Apple's own, redeemed through the App Store — Ovyso never sees anything about your account or your payment details.</li>
+        <li>The offer is Apple’s own, redeemed through the App Store — Ovyso never sees anything about your account or your payment details.</li>
       </ul>
       <p>If the link turns you away, write to <a href="mailto:support@ovyso.app">support@ovyso.app</a> and say what the App Store told you.</p>
     </section>
 
     <footer>
-      <p><a href="/">Ovyso</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/support/">Support</a></p>
+      <nav aria-label="Footer"><a href="/">Ovyso</a><a href="/privacy/">Privacy Policy</a><a href="/support/">Support</a></nav>
     </footer>
   </main>
   <a class="to-top" href="#top" aria-label="Back to top">

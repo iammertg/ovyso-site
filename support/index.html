@@ -4,6 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ovyso — Support</title>
+<meta name="description" content="Help with Ovyso: widgets that show no numbers, Fitbit data through Apple Health, adding widgets, what Circles share, Ovyso Pro and restoring it. Email support@ovyso.app.">
+<meta name="apple-itunes-app" content="app-id=6810986871">
+<link rel="canonical" href="https://ovyso.app/support/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ovyso">
+<meta property="og:url" content="https://ovyso.app/support/">
+<meta property="og:title" content="Ovyso — Support">
+<meta property="og:description" content="Help with Ovyso: widgets that show no numbers, Fitbit data through Apple Health, adding widgets, what Circles share, Ovyso Pro and restoring it. Email support@ovyso.app.">
+<meta property="og:image" content="https://ovyso.app/assets/share/ovyso.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ovyso: Health widgets, crafted.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#16100d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbf1e8" media="(prefers-color-scheme: light)">
 <style>
   :root {
     /* The app's own chrome, Sunrise (Atelier/Support/AppTheme.swift), the same tokens as
@@ -17,9 +36,50 @@
     --hairline: rgba(255, 255, 255, 0.14);
     --ink: #ffffff;
     --ink-muted: #b8b8bc;
+    --ink-body: rgba(255, 255, 255, 0.88);
+    --ink-soft: rgba(255, 255, 255, 0.82);
     --accent: #ff7d57;
     --accent-deep: #c23d18;
+    --link: #ff7d57;
+    --link-underline: rgba(255, 125, 87, 0.4);
+    /* The primary button hovered: the accent under the ground, 7.47:1. */
+    --button-hover: var(--accent);
+    --on-button-hover: #16100d;
+    --code-ink: #ff7d57;
+    --code-wash: rgba(255, 125, 87, 0.12);
+    --chip: rgba(255, 255, 255, 0.08);
+    --selection: rgba(255, 125, 87, 0.32);
     --shadow: rgba(0, 0, 0, 0.55);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Light mode, as index.html's: the linen ground under white cards. The light accent #E0512A reads
+     3.50:1 on the linen, enough for the focus ring and drawn marks but not for text, so links and
+     labels take the fill #C23D18 (4.74:1); the hovered button keeps its fill and white label, 5.28:1,
+     with the accent ring round it; code is set in ink on the coral wash. */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg-top: #fbf1e8;
+      --bg-mid: #fbf1e8;
+      --bg-bottom: #ffffff;
+      --surface: #ffffff;
+      --hairline: rgba(28, 25, 23, 0.12);
+      --ink: #1a1a1a;
+      --ink-muted: #5c5c60;
+      --ink-body: rgba(26, 26, 26, 0.88);
+      --ink-soft: rgba(26, 26, 26, 0.82);
+      --accent: #e0512a;
+      --accent-deep: #c23d18;
+      --link: #c23d18;
+      --link-underline: rgba(194, 61, 24, 0.4);
+      --button-hover: var(--accent-deep);
+      --on-button-hover: #ffffff;
+      --code-ink: #1a1a1a;
+      --code-wash: rgba(224, 81, 42, 0.12);
+      --chip: rgba(28, 25, 23, 0.06);
+      --selection: rgba(224, 81, 42, 0.22);
+      --shadow: rgba(35, 27, 15, 0.28);
+    }
   }
 
   * { box-sizing: border-box; }
@@ -39,6 +99,11 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  html { -webkit-text-size-adjust: 100%; }
+  ::selection { background: var(--selection); color: var(--ink); }
+  h1, h2, h3 { text-wrap: balance; }
+  p, li { text-wrap: pretty; }
+
   /* The home page's masthead, on a page's own column: the name top left is the way home. */
   .masthead {
     display: flex;
@@ -53,9 +118,12 @@
     font-size: 22px;
     color: var(--ink);
     border: 0;
+    padding: 6px 0;
+    margin: -6px 0;
   }
+  /* Padding with an equal negative margin: a 44 pt target for the name and each link, nothing moved. */
   .masthead nav { display: flex; gap: 22px; font-size: 14px; }
-  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; padding: 12px 0; margin: -12px 0; }
   .masthead nav a:hover, .masthead nav a[aria-current="page"] { color: var(--ink); }
   a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
@@ -102,18 +170,31 @@
   }
 
   .contact-card .label {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--link);
     margin: 0 0 8px;
   }
 
   .contact-card .value {
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
   }
+  /* The address alone on its line: a 44 pt target, its hairline drawn as an underline so the
+     padding that makes the target does not push it away from the word. */
+  .contact-card .value a {
+    display: inline-block;
+    padding: 12px 0;
+    margin: -12px 0;
+    border-bottom: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--link-underline);
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 4px;
+  }
+  .contact-card .value a:hover { text-decoration-color: var(--link); }
 
   section h2 {
     font-family: ui-serif, "New York", Georgia, serif;
@@ -124,16 +205,16 @@
   }
 
   section p {
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 15.5px;
+    color: var(--ink-body);
+    font-size: 16px;
     margin: 0 0 16px;
   }
 
   section ol, section ul {
     margin: 0 0 16px;
     padding-left: 20px;
-    color: rgba(255, 255, 255, 0.88);
-    font-size: 15.5px;
+    color: var(--ink-body);
+    font-size: 16px;
   }
 
   section li {
@@ -149,14 +230,19 @@
   }
 
   details + details { margin-top: 12px; }
+  /* The answer's last block ends on the card's own padding, so it sits as far from the card's foot as
+     the question does from its top. */
+  details > :last-child { margin-bottom: 0; }
 
   summary {
     cursor: pointer;
     padding: 16px 0;
-    font-size: 15.5px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--ink);
     list-style: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.16s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -164,46 +250,59 @@
 
   summary::-webkit-details-marker { display: none; }
 
+  /* A drawn plus that loses its upright when the answer is open: two 1.5 px strokes in the link
+     colour, not a typed "+" and "–". */
   summary::after {
-    content: "+";
-    color: var(--accent);
-    font-size: 18px;
-    font-weight: 400;
-    margin-left: 12px;
+    content: "";
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin-left: 16px;
+    background:
+      linear-gradient(var(--link), var(--link)) center / 14px 1.5px no-repeat,
+      linear-gradient(var(--link), var(--link)) center / 1.5px 14px no-repeat;
   }
-
-  details[open] summary::after { content: "–"; }
+  details[open] summary::after { background: linear-gradient(var(--link), var(--link)) center / 14px 1.5px no-repeat; }
+  @media (hover: hover) and (pointer: fine) {
+    summary:hover { color: var(--link); }
+  }
+  summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
 
   details p, details ol {
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 14.5px;
+    color: var(--ink-soft);
+    font-size: 16px;
     padding-bottom: 18px;
   }
 
   code {
-    background: rgba(255, 125, 87, 0.12);
-    color: var(--accent);
+    background: var(--code-wash);
+    color: var(--code-ink);
     padding: 1px 6px;
     border-radius: 5px;
     font-size: 0.92em;
   }
 
   a {
-    color: var(--accent);
+    color: var(--link);
     text-decoration: none;
-    border-bottom: 0.5px solid rgba(255, 125, 87, 0.4);
+    border-bottom: 0.5px solid var(--link-underline);
+    transition: color 0.16s ease, border-color 0.16s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
-  a:hover { border-bottom-color: var(--accent); }
+  a:hover { border-bottom-color: var(--link); }
 
+  /* The close, as index.html's: links spaced apart (no dots between them), each a 44 pt target. */
   footer {
     margin-top: 56px;
     padding-top: 24px;
     border-top: 0.5px solid var(--hairline);
     color: var(--ink-muted);
-    font-size: 13px;
+    font-size: 14px;
   }
-
-  footer a { color: var(--ink-muted); border-bottom-color: rgba(184, 184, 188, 0.4); }
+  footer nav { display: flex; flex-wrap: wrap; gap: 24px 28px; }
+  footer a { color: var(--ink-muted); border-bottom-color: transparent; padding: 12px 0; margin: -12px 0; min-width: 44px; }
+  footer a:hover { color: var(--ink); border-bottom-color: transparent; }
 
   /* Back to top: out of the way until the reader is a screen down a long page, then a
      44 pt button in the corner, clear of the home indicator. */
@@ -273,12 +372,12 @@
 
       <details open>
         <summary>My widget shows no numbers, just a placeholder shape</summary>
-        <p>That's Ovyso protecting you from fabricated data, not a bug. It means Health access hasn't been granted yet, or Apple Health has nothing to show for that metric. Open Ovyso, go through the Health Access step (or Settings → Privacy &amp; Security → Health → Data Access &amp; Devices → Ovyso on the device itself), and make sure the categories you care about are turned on. If you'd rather see the app fully populated while you decide, turn on <strong>Settings → Data → Demo data</strong> inside Ovyso — it fills the app and every widget with a realistic sample day.</p>
+        <p>That’s Ovyso protecting you from fabricated data, not a bug. It means Health access hasn’t been granted yet, or Apple Health has nothing to show for that metric. Open Ovyso, go through the Health Access step (or Settings → Privacy &amp; Security → Health → Data Access &amp; Devices → Ovyso on the device itself), and make sure the categories you care about are turned on. If you’d rather see the app fully populated while you decide, turn on <strong>Settings → Data → Demo data</strong> inside Ovyso — it fills the app and every widget with a realistic sample day.</p>
       </details>
 
       <details>
-        <summary>How do I get my Fitbit's data into Ovyso?</summary>
-        <p>Ovyso reads Apple Health only — it never talks to Fitbit or Google directly. If you wear a Fitbit, turn on the Google Health app's own Apple Health sync once, and Ovyso picks up whatever arrives from then on:</p>
+        <summary>How do I get my Fitbit’s data into Ovyso?</summary>
+        <p>Ovyso reads Apple Health only — it never talks to Fitbit or Google directly. If you wear a Fitbit, turn on the Google Health app’s own Apple Health sync once, and Ovyso picks up whatever arrives from then on:</p>
         <ol>
           <li>Open the Google Health app.</li>
           <li>Tap the Connections icon, top-left.</li>
@@ -291,17 +390,17 @@
 
       <details>
         <summary>How do I add a widget to my Home Screen or Lock Screen?</summary>
-        <p>Touch and hold an empty area of the Home Screen, tap Edit, then Add Widget. Search for "Ovyso" and pick any of the six layouts and a size. For the Lock Screen, touch and hold the Lock Screen itself, tap Customize, and add an Ovyso widget the same way. Widgets stay current on their own; there's nothing to refresh by hand, though a manual refresh is available from the Dashboard widget's own "updated" control.</p>
+        <p>Touch and hold an empty area of the Home Screen, tap Edit, then Add Widget. Search for “Ovyso” and pick any of the six layouts and a size. For the Lock Screen, touch and hold the Lock Screen itself, tap Customize, and add an Ovyso widget the same way. Widgets stay current on their own; there’s nothing to refresh by hand, though a manual refresh is available from the Dashboard widget’s own “updated” control.</p>
       </details>
 
       <details>
         <summary>What exactly do Circles share with other members?</summary>
-        <p>Your daily step total and the distance you covered for that specific Circle, the daily goal you set — an event can be scored against each member's own goal, so the others see it beside what you walked — and the display name you chose. Steps and distance typed into Health by hand are left out of what a Circle counts, so a Circle's number can read lower than your own Today screen. Nothing about your sleep, heart rate, vitals, or location is ever shared. Full detail is in the <a href="/privacy/">Privacy Policy</a>.</p>
+        <p>Your daily step total and the distance you covered for that specific Circle, the daily goal you set — an event can be scored against each member’s own goal, so the others see it beside what you walked — and the display name you chose. Steps and distance typed into Health by hand are left out of what a Circle counts, so a Circle’s number can read lower than your own Today screen. Nothing about your sleep, heart rate, vitals, or location is ever shared. Full detail is in the <a href="/privacy/">Privacy Policy</a>.</p>
       </details>
 
       <details>
         <summary>What does Ovyso Pro unlock, and how do I restore it?</summary>
-        <p>Pro removes the two-design limit in the Studio, unlocks all seven finishes, and lets you host Circles of your own — joining a Circle somebody invites you to is free, and every share card is free to make and send in any finish. It's a one-time purchase, handled entirely by Apple through StoreKit — Ovyso never sees your payment details. If Pro isn't showing as active after reinstalling the app or moving to a new device, open Settings inside Ovyso and use Restore Purchases; it re-applies whatever is tied to your Apple ID at no extra charge.</p>
+        <p>Pro removes the two-design limit in the Studio, unlocks all seven finishes, and lets you host Circles of your own — joining a Circle somebody invites you to is free, and every share card is free to make and send in any finish. It’s a one-time purchase, handled entirely by Apple through StoreKit — Ovyso never sees your payment details. If Pro isn’t showing as active after reinstalling the app or moving to a new device, open Settings inside Ovyso and use Restore Purchases; it re-applies whatever is tied to your Apple ID at no extra charge.</p>
       </details>
 
       <details>
@@ -310,7 +409,7 @@
       </details>
 
       <details>
-        <summary>Is there an Android version, or a version for other trackers' own apps?</summary>
+        <summary>Is there an Android version, or a version for other trackers’ own apps?</summary>
         <p>Not currently — Ovyso is an iOS app that reads Apple Health, so any tracker that writes into Apple Health works, but there is no separate Android build.</p>
       </details>
     </section>
@@ -321,7 +420,7 @@
     </section>
 
     <footer>
-      <p><a href="/">Ovyso</a> · <a href="/privacy/">Privacy Policy</a></p>
+      <nav aria-label="Footer"><a href="/">Ovyso</a><a href="/privacy/">Privacy Policy</a></nav>
     </footer>
   </main>
   <a class="to-top" href="#top" aria-label="Back to top">

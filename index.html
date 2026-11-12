@@ -6,6 +6,22 @@
 <title>Ovyso — Health widgets, crafted</title>
 <meta name="description" content="Ovyso turns the steps, sleep, heart rate and vitals already in Apple Health into Home Screen and Lock Screen widgets you design yourself, and walks with friends in Circles. On the App Store for iPhone.">
 <meta name="apple-itunes-app" content="app-id=6810986871">
+<link rel="canonical" href="https://ovyso.app/">
+<!-- The link preview and the icons: Scripts/site_share.py makes all of them from the app's own
+     icon and the page's own Home Screen capture (docs/site/README.md, Sharing and icons). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ovyso">
+<meta property="og:url" content="https://ovyso.app/">
+<meta property="og:title" content="Ovyso — Health widgets, crafted">
+<meta property="og:description" content="The steps, sleep, heart rate and vitals already in Apple Health, as Home Screen and Lock Screen widgets you design yourself. On the App Store for iPhone.">
+<meta property="og:image" content="https://ovyso.app/assets/share/ovyso.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ovyso: Health widgets, crafted. An iPhone Home Screen with a Rings widget and a Steps widget reading 6,092 steps.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#16100d" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fbf1e8" media="(prefers-color-scheme: light)">
@@ -50,8 +66,10 @@
     --steps-3: #ba7f00;
     --shadow: rgba(0, 0, 0, 0.55);
     --sat-shadow: rgba(0, 0, 0, 0.42);
+    --selection: rgba(255, 125, 87, 0.32);
     /* How much of a section's glow shows behind the phone; the light ground takes less. */
     --glow-max: 1;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
     /* The phone. Its height follows the viewport, its width the screen's own 1320 × 2868 ratio; the
        edge, bezel and radii are the drawn frame from Scripts/appstore-screenshots/templates/shot.css
@@ -93,6 +111,7 @@
       --steps-3: #eaa000;
       --shadow: rgba(35, 27, 15, 0.28);
       --sat-shadow: rgba(35, 27, 15, 0.22);
+      --selection: rgba(224, 81, 42, 0.22);
       --glow-max: 0.55;
     }
   }
@@ -115,10 +134,16 @@
     overflow-x: clip;
   }
 
+  html { -webkit-text-size-adjust: 100%; }
+  ::selection { background: var(--selection); color: var(--ink); }
+
   a {
     color: var(--link);
     text-decoration: none;
     border-bottom: 0.5px solid var(--link-underline);
+    transition: color 0.16s ease, border-color 0.16s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   a:hover { border-bottom-color: var(--link); }
   a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
@@ -133,27 +158,32 @@
     position: relative;
     z-index: 3;
   }
+  /* The name and the two links keep their places; padding with an equal negative margin gives each
+     a 44 pt target without moving a pixel. */
   .brand {
     font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
     font-size: 22px;
     color: var(--ink);
     border: 0;
+    padding: 6px 0;
+    margin: -6px 0;
   }
   .masthead nav { display: flex; gap: 22px; font-size: 14px; }
-  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; }
+  .masthead nav a { color: var(--ink-muted); border-bottom-color: transparent; padding: 12px 0; margin: -12px 0; }
   .masthead nav a:hover { color: var(--ink); }
 
   h1, h2 {
     font-family: ui-serif, "New York", Georgia, "Times New Roman", serif;
     font-weight: 500;
     line-height: 1.12;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.01em;
     margin: 0 0 14px;
     color: var(--ink);
     text-wrap: balance;
   }
-  h1 { font-size: clamp(38px, 4.4vw, 60px); }
+  h1 { font-size: clamp(38px, 4.4vw, 60px); letter-spacing: -0.015em; }
   h2 { font-size: clamp(28px, 3vw, 42px); }
+  .words p { text-wrap: pretty; }
 
   .words p {
     margin: 0 0 14px;
@@ -177,17 +207,24 @@
     color: #ffffff;
     font-size: 15px;
     font-weight: 600;
+    transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.12s var(--ease-out);
   }
   @media (hover: hover) {
     .get:hover { background: var(--get-hover); color: var(--on-accent); box-shadow: 0 0 0 2px var(--accent); }
+  }
+  /* Pressed, it gives a little under the finger; focused, the ring follows its corners. */
+  .get:active { transform: scale(0.97); }
+  .get:focus-visible { border-radius: 12px; }
+  @media (prefers-reduced-motion: reduce) {
+    .get:active { transform: none; }
   }
 
   /* ---- The stacked page: phones, and any browser that asks for less motion ---- */
 
   .stage { position: relative; max-width: 1440px; margin: 0 auto; }
   .phone-holder { display: none; }
+  /* Sections part by space alone, as the wide layout's do: no rule cuts the page into slabs. */
   .scene { position: relative; padding: 56px var(--gutter); }
-  .scene + .scene { border-top: 0.5px solid var(--hairline); }
   .shot { margin: 28px 0 0; }
   .shot img {
     display: block;
@@ -212,7 +249,6 @@
       min-height: 100vh;
       padding: 48px var(--gutter);
     }
-    .scene + .scene { border-top: 0; }
     .scene .words { grid-column: 1; grid-row: 1; }
     .scene.flip .words { grid-column: 3; }
     .scene .shot { grid-column: 2; grid-row: 1; margin: 0; justify-self: center; }
@@ -300,6 +336,7 @@
       transition: opacity 0.2s linear;
       will-change: transform, opacity;
     }
+    html.motion .glow.accent { --glow: color-mix(in srgb, var(--accent) var(--mix), transparent); }
     html.motion .glow.circles { --glow: color-mix(in srgb, var(--circles) var(--mix), transparent); }
     html.motion .glow.steps {
       background: conic-gradient(var(--steps-1), var(--steps-2), var(--steps-3), var(--steps-1));
@@ -365,18 +402,26 @@
     }
   }
 
+  /* The close: the name, then the links spaced apart (no dots between them), each a 44 pt target. */
   .foot {
     max-width: 1440px;
     margin: 0 auto;
     padding: 40px var(--gutter) 56px;
     border-top: 0.5px solid var(--hairline);
     color: var(--ink-muted);
-    font-size: 13px;
+    font-size: 14px;
     position: relative;
     z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px 40px;
   }
-  .foot a { color: var(--ink-muted); border-bottom-color: var(--hairline); }
-  .foot p { margin: 0; }
+  .foot .sign { font-family: ui-serif, "New York", Georgia, "Times New Roman", serif; font-size: 18px; color: var(--ink); }
+  .foot nav { display: flex; flex-wrap: wrap; gap: 24px 28px; }
+  .foot a { color: var(--ink-muted); border-bottom-color: transparent; padding: 12px 0; margin: -12px 0; min-width: 44px; }
+  .foot a:hover { color: var(--ink); border-bottom-color: transparent; }
 
   /* Back to top: out of the way until the reader is a screen down a long page, then a
      44 pt button in the corner, clear of the home indicator. */
@@ -427,11 +472,12 @@
     <!-- One phone for the whole page. The layers are the sections' screens in section order; the
          driver at the end of the page crossfades and poses them from the scroll position. The glows
          are one per section too: the finish grounds Scripts/appstore-screenshots/shots.json gives the
-         same screens, except Circles and the result, which take the app's Circles gold (`--circles`),
-         and Today, which takes the steps ramp (`--steps-1` to `--steps-3`), each per appearance. -->
+         same screens, except the opening, which takes the page's own coral (`--accent`), Circles and
+         the result, which take the app's Circles gold (`--circles`), and Today, which takes the steps
+         ramp (`--steps-1` to `--steps-3`), each per appearance. -->
     <div class="phone-holder" aria-hidden="true">
       <div class="glows">
-        <div class="glow" style="--glow: rgba(106, 79, 224, 0.34); --o: 1"></div>
+        <div class="glow accent" style="--mix: 24%; --o: 1"></div>
         <div class="glow" style="--glow: rgba(18, 104, 143, 0.34)"></div>
         <div class="glow" style="--glow: rgba(47, 75, 199, 0.34)"></div>
         <div class="glow circles" style="--mix: 26%"></div>
@@ -520,7 +566,7 @@
       <section class="scene" id="journey" data-pose="0 0 0 0 0 1.05" aria-labelledby="h-journey">
         <div class="words">
           <h2 id="h-journey">Or walk the Camino together.</h2>
-          <p>Your circle's steps move along a real route, and every stop reached sends an illustrated postcard. Twenty-one routes, or one of your own between two places.</p>
+          <p>Your circle’s steps move along a real route, and every stop reached sends an illustrated postcard. Twenty-one routes, or one of your own between two places.</p>
         </div>
         <figure class="shot frame">
           <img src="assets/screens/journey.webp" width="780" height="1695" alt="The circle's passport for the Camino de Santiago, September 23 to October 2: stamps for Sarria, Portomarín and Palas de Rei, and the illustrated postcard for Portomarín — Stage 1, 13.7 miles from Sarria — telling how the Belesar reservoir flooded the old town in the 1960s." loading="lazy" decoding="async">
@@ -548,7 +594,7 @@
       <section class="scene flip" id="result" data-pose="-20 -6 2 -5 0 0.95" aria-labelledby="h-result">
         <div class="words">
           <h2 id="h-result">Every event ends with a result.</h2>
-          <p>A podium, awards, and laurels that lift your rank. The latest winner holds the circle's crown, and a season of contests crowns a champion. Rank, laurels and season finishes are earned, never sold.</p>
+          <p>A podium, awards, and laurels that lift your rank. The latest winner holds the circle’s crown, and a season of contests crowns a champion. Rank, laurels and season finishes are earned, never sold.</p>
           <p>Share it as a poster.</p>
         </div>
         <figure class="shot frame">
@@ -564,7 +610,7 @@
       <section class="scene" id="data" data-pose="8 0 0 2 2 0.86" aria-labelledby="h-data">
         <div class="words">
           <h2 id="h-data">Your health data stays on your phone.</h2>
-          <p>The exceptions are Circles and Friends, and only what they need: the day's steps and distance, a date, a time-zone offset and the name you chose — plus, in Circles, the goals you set, and in Friends, your username. Nothing else Ovyso reads from Apple Health leaves your iPhone.</p>
+          <p>The exceptions are Circles and Friends, and only what they need: the day’s steps and distance, a date, a time-zone offset and the name you chose — plus, in Circles, the goals you set, and in Friends, your username. Nothing else Ovyso reads from Apple Health leaves your iPhone.</p>
           <p>No analytics, no ads, no tracking. The detail is in the <a href="/privacy/">privacy policy</a>.</p>
         </div>
         <figure class="shot frame">
@@ -587,7 +633,8 @@
   </main>
 
   <footer class="foot">
-    <p>Ovyso · <a href="/support/">Support</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/join/">Join a circle</a> · <a href="mailto:support@ovyso.app">support@ovyso.app</a></p>
+    <span class="sign">Ovyso</span>
+    <nav aria-label="Footer"><a href="/support/">Support</a><a href="/privacy/">Privacy Policy</a><a href="/join/">Join a circle</a><a href="mailto:support@ovyso.app">support@ovyso.app</a></nav>
   </footer>
 
 <script>
